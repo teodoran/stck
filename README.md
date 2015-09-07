@@ -62,20 +62,29 @@ The following operators are supported: `+` (addition), `-` (substraction), `*` (
 
 False is represented by `0`(zero) and anything else is considered true. The following boolean operators are supported: `=` (equal), `>` (greater than), `<` (less than), and `not`. All operators perform on the two upmost elements on the stack, and push the result back on the stack.
 
-    3 4 =
-    [0]
-    . 3 3 =
-    [1]
-
 **Conditionals**
 
-    ? : ;
+Conditionals follow the if-then-else construct: `<a boolean> ? <this will happen if true> : <this will happen if false> ;`
 
-    //
+    3 3 = ? 1337 : 192 ;
+    [1337]
 
-    sprint
-    hprint
+    3 17 = ? 1337 : 192 ;
+    [192]
+
+**Comments**
+
+`//` indicates the start of a comment. Comments are considered as statements, and therefore has to be delimited as regulare lines with `!`.
+
+    // This is a comment !
+    
+    // This 
+    is also 
+    a commet !
+
+**Utility functions**
+
+`hprint` prints the content of the heap. This will list all declared subroutines.
+`sprint` prints the content of the stack. This is equal to the reply given by the interpreter.
 
 
-    >2 3 +
-    [5]
