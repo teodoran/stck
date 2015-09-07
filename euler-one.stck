@@ -1,4 +1,5 @@
 // STCK euler one !
+// Ported from http://blog.kjempekjekt.com/2011/12/18/forth/ !
 
 # next-is-zero 
     dup 0 =
