@@ -18,14 +18,18 @@ Using the languague
 **Delimiting lines**
 
 When using the interpreter, return acts as the line delimiter.
+
     2 3 +
     [5]
+
 The entire statement must fit on one line, as multi-line statements is not supported.
 
 When executing files, `!` acts as the line-delimiter, making it possible to declare statements over several lines.
+
     2 3
     +
     !
+
 Lines cannot be nested.
 
 **working with the stack**
