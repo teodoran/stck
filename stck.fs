@@ -26,6 +26,20 @@ let dup stack =
         printfn "Cannot dup on the stack"
         stack
 
+let over stack =
+    match stack with
+    | a :: b :: rest -> (b :: a :: b :: rest)
+    | _ ->
+        printfn "Cannot over on the stack"
+        stack
+
+let rot stack =
+    match stack with
+    | a :: b :: c :: rest -> c :: a :: b :: rest
+    | _ ->
+        printfn "Cannot rot on the stack"
+        stack
+
 let isInt string =
     let couldParse, value = Int32.TryParse(string)
     couldParse
@@ -87,6 +101,8 @@ let exec exp stack =
     | "." -> drop stack
     | "swap" -> swap stack
     | "dup" -> dup stack
+    | "over" -> over stack
+    | "rot" -> rot stack
     | "+" -> add stack
     | "-" -> substract stack
     | "*" -> multiply stack

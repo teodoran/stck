@@ -50,7 +50,11 @@ Lines cannot be nested.
     [2]
     dup
     [2; 2]
-    
+
+`over` see the [Forth dokumentation](http://wiki.laptop.org/go/Forth_stack_operators)
+
+`rot` see the [Forth dokumentation](http://wiki.laptop.org/go/Forth_stack_operators)
+
 **Math**
 
 The following operators are supported: `+` (addition), `-` (substraction), `*` (multiplication), `/` (division) and `%` (modulo). All operators perform on the two upmost elements on the stack, and push the result back on the stack. Beware of integer division as it will floor the result.
