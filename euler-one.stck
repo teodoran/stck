@@ -1,0 +1,37 @@
+// STCK euler one !
+
+# next-is-zero 
+    dup 0 =
+!
+
+# multiple-of-3
+    dup 3 % 0 =
+!
+
+# multiple-of-5
+    dup 5 % 0 =
+!
+
+# keep-number-if-multiple-of-3-or-5 
+    multiple-of-3 
+    ? dup 
+    : multiple-of-5 
+        ? dup 
+        : ; ;
+    1 -
+!
+
+# generate-numbers
+    next-is-zero not 
+    ? keep-number-if-multiple-of-3-or-5 generate-numbers 
+    : . ; 
+!
+
+# sum-numbers
+    + swap 
+    next-is-zero 
+    ? . : 
+    swap sum-numbers ; 
+!
+
+0 999 generate-numbers sum-numbers !
