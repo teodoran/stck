@@ -72,6 +72,23 @@ Conditionals follow the if-then-else construct: `<a boolean> ? <this will happen
     3 17 = ? 1337 : 192 ;
     [192]
 
+**Subroutines**
+
+Subroutines are declared by using `#`:
+
+    # add-five 5 +
+    []
+    2 add-five
+    [7]
+
+The contents of a subroutine is contained within a line. So remeber to terminate the subroutine declaration with `!` when not using the interactive interpreter.
+
+    // some-file.stck !
+    
+    # add-five 5 + !
+    
+    2 add-five !
+
 **Comments**
 
 `//` indicates the start of a comment. Comments are considered as statements, and therefore has to be delimited as regulare lines with `!`.
@@ -86,5 +103,3 @@ Conditionals follow the if-then-else construct: `<a boolean> ? <this will happen
 
 `hprint` prints the content of the heap. This will list all declared subroutines.
 `sprint` prints the content of the stack. This is equal to the reply given by the interpreter.
-
-
