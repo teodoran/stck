@@ -2,6 +2,8 @@ STCK
 ====
 _a stack-based programming language_
 
+_"INTERCAL allows only 2 different types of variables, the 16-bit integer and the 32-bit integer." - From the [INTERCAL Programming Language Revised Reference Manual](http://www.muppetlabs.com/~breadbox/intercal-man/s03.html)_
+
 STCK (pronounced stick) is is a programming languague inspired by [Forth](https://en.wikipedia.org/wiki/Forth_(programming_language)). Variables are never declared, values is just placed on a global stack. Syntax is minimal. The only supported data-type is 32-bit integers.
 
 
@@ -17,6 +19,8 @@ This should compile the interpreter into stck.exe, and run a stck-program, solvi
 
 Using the languague
 -------------------
+
+_"Beware of the Turing tar-pit in which everything is possible but nothing of interest is easy." - [Alan J. Perlis](http://pu.inf.uni-tuebingen.de/users/klaeren/epigrams.html)_
 
 **Delimiting lines**
 
@@ -36,6 +40,8 @@ When executing files, `!` acts as the line-delimiter, making it possible to decl
 Lines cannot be nested.
 
 **working with the stack**
+
+_"A goal of a good Forth programmer is to minimize the use of these words, since they are only moving data around instead of doing useful work." - From the [The OLPC Wiki](http://wiki.laptop.org/go/Forth_stack_operators)_
 
 `.` will drop one element from the stack.
 
@@ -103,6 +109,8 @@ In addition, the [Forth dokumentation](http://wiki.laptop.org/go/Forth_stack_ope
 
 **Math**
 
+_"For every epsilon>0 there is a delta>0 such that whenever |x-x_0|<delta, then |f(x)-f(x_0)|<epsilon." - From [Wikipedia](https://en.wikipedia.org/wiki/(%CE%B5,_%CE%B4)-definition_of_limit)_
+
 The following operators are supported: `+` (addition), `-` (substraction), `*` (multiplication), `/` (division) `i/` (integer division) and `%` (modulo). All operators, except `/` perform on the two upmost elements on the stack, and push the result back on the stack as one number.
 
     5 2 -
@@ -120,7 +128,7 @@ In addition, the remainder can be computed directly with the `rem` operator.
 
 **Boolean operators**
 
-False is represented by `0`(zero) and anything else is considered true. The following boolean operators are supported: `=` (equal), `>` (greater than), `<` (less than), and `not`. All operators perform on the two upmost elements on the stack, and push the result back on the stack.
+False is represented by `0`(zero) and anything else is considered true. The following boolean operators are supported: `=` (equal), `>` (greater than), `<` (less than), and `not`. All operators, except `not`, perform on the two upmost elements on the stack, and push the result back on the stack.
 
 **Conditionals**
 
@@ -133,6 +141,8 @@ Conditionals follow the if-then-else construct: `<a boolean> ? <this will happen
     [192]
 
 **Subroutines**
+
+_"What is a definition? Well classically a definition was colon something, and words, and end of definition somewhere." - [Chuck Moore](http://www.ultratechnology.com/1xforth.htm)_
 
 Subroutines are declared by using `#`:
 
@@ -150,6 +160,8 @@ The contents of a subroutine is contained within a line. So remeber to terminate
     2 add-five !
 
 **Comments**
+
+_"Due to INTERCAL's implementation of comment lines, most error messages are produced during execution instead of during compilation." - From the [INTERCAL Programming Language Revised Reference Manual](http://www.muppetlabs.com/~breadbox/intercal-man/s09.html)_
 
 `//` indicates the start of a comment. Comments are considered as statements, and therefore has to be delimited as regulare lines with `!`.
 
