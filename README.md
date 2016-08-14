@@ -164,17 +164,3 @@ The contents of a subroutine is contained within a line. So remeber to terminate
 `hprint` prints the content of the heap. This will list all declared subroutines.
 `sprint` prints the content of the stack. This is equal to the reply given by the interpreter.
 `quit` exits the interprenter.
-
-
-Releaselog
-----------
-
-**V 1.1**
-
-Changed behaviour of /. Integer division is now performed with i/ and / performs regular division.
-
-Added the command `quit`, `2dup`, `len`, `max`, `min` and `remainder`.
-
-**V 1.0**
-
-Initial release.
