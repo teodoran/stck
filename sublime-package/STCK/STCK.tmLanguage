@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>fileTypes</key>
+  <array>
+    <string>stck</string>
+  </array>
+  <key>foldingStartMarker</key>
+  <string>/\*\*|\{\s*$</string>
+  <key>foldingStopMarker</key>
+  <string>\*\*/|^\s*\}</string>
+  <key>keyEquivalent</key>
+  <string>^~F</string>
+  <key>name</key>
+  <string>STCK</string>
+  <key>patterns</key>
+  <array>
+    <dict>
+      <key>match</key>
+      <string>(?i:(?&lt;=^|\s)(TRUE|FALSE|BL|PI|CELL|C/L|R/O|W/O|R/W)(?=\s))</string>
+      <key>name</key>
+      <string>constant.language.stck</string>
+    </dict>
+    <dict>
+      <key>match</key>
+      <string>(?&lt;=^|\s)([$#%]?[-+]?[0-9]+(\.[0-9]*e(-?[0-9]+)|\.?[0-9a-fA-F]*))(?=\s)</string>
+      <key>name</key>
+      <string>constant.numeric.stck</string>
+    </dict>
+    <dict>
+      <key>match</key>
+      <string>(?&lt;=^|\s)(([&amp;^]\S)|(("|')\S("|')))(?=\s)</string>
+      <key>name</key>
+      <string>constant.character.stck</string>
+    </dict>
+    <dict>
+      <key>comment</key>
+      <string>Line comment</string>
+      <key>match</key>
+      <string>(?&lt;=^|\s)(// .*$)</string>
+      <key>name</key>
+      <string>comment.line.backslash.stck</string>
+    </dict>
+    <dict>
+      <key>match</key>
+      <string>(?&lt;=^|\s)(?i:(\.|#|!|swap|dup|not|sprint|hprint|\?|:|;))(?=\s)</string>
+      <key>name</key>
+      <string>keyword.other.immediate.stck</string>
+    </dict>
+  </array>
+  <key>scopeName</key>
+  <string>source.stck</string>
+  <key>uuid</key>
+  <string>0AAA4CFD-D621-4B33-BB76-E5D9EDE64E84</string>
+</dict>
+</plist>

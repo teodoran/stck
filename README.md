@@ -1,20 +1,23 @@
-stck
+STCK
 ====
 _a stack-based programming language_
 
-stck is is a programming languague inspired by [Forth](https://en.wikipedia.org/wiki/Forth_(programming_language)). Variables are never declared, values is just placed on a global stack. Syntax is minimal. Currently, the only supported data-type is 32-bit integers.
+STCK (pronounced stick) is is a programming languague inspired by [Forth](https://en.wikipedia.org/wiki/Forth_(programming_language)). Variables are never declared, values is just placed on a global stack. Syntax is minimal. The only supported data-type is 32-bit integers.
+
 
 Installation
 ------------
 
-You'll need a F# compiler (fsharpc/fshapri) to compile the stck interpreter. [This guide](http://fsharp.org/use/linux/) is usefull if you're using Linux. When the compiler is installed, simply run:
+A very limited choice of prebuilt binaries can be found in the /binaries folder. If you can't find a binary that works for you, you'll need a F# compiler (fsharpc/fshapri) to compile the STCK interpreter. [This guide](http://fsharp.org/use/linux/) is usefull if you're using Linux. When the compiler is installed, navigate to the folder containing `stck.fs` and run:
 
-    fsharpc stck.fs && ./stck.exe ./euler-one.stck
+    fsharpc stck.fs && ./stck.exe ./samples/euler-one.stck
 
 This should compile the interpreter into stck.exe, and run a stck-program, solving the first [Project Euler](https://projecteuler.net/) problem. Just running stck.exe will launch the interactive interpreter.
 
+
 Using the languague
 -------------------
+
 **Delimiting lines**
 
 When using the interpreter, return acts as the line delimiter.
@@ -55,16 +58,65 @@ Lines cannot be nested.
     dup
     [2; 2]
 
-`over` see the [Forth dokumentation](http://wiki.laptop.org/go/Forth_stack_operators)
+`2dup` will duplicate the two topmost elements on the stack.
 
-`rot` see the [Forth dokumentation](http://wiki.laptop.org/go/Forth_stack_operators)
+    2 3
+    [3; 2]
+    2dup
+    [3; 2; 3; 2]
+
+`over` will copy the second element on the stack.
+
+    2 3
+    [3; 2]
+    over
+    [2; 3; 2]
+
+`rot` will move the third element to the top of the stack.
+
+    1 2 3
+    [3; 2; 1]
+    rot
+    [1; 3; 2]
+
+`len` will return the size of the stack and push the size onto the stack.
+
+    1 1
+    [1; 1]
+    len
+    [2; 1; 1]
+
+`empty` will check if the stack is empty, and push the result onto the stack.
+
+    []
+    empty
+    [1]
+
+`max` and `min` will remove all elements on the stack, leaving only the largest or smallest integer.
+
+    1 3 1 max
+    [3]
+    1 -2 1 min
+    [-2]
+
+In addition, the [Forth dokumentation](http://wiki.laptop.org/go/Forth_stack_operators) has a good description of different stack operators, along with reference implementations for less basic operators.
 
 **Math**
 
-The following operators are supported: `+` (addition), `-` (substraction), `*` (multiplication), `/` (division) and `%` (modulo). All operators perform on the two upmost elements on the stack, and push the result back on the stack. Beware of integer division as it will floor the result.
+The following operators are supported: `+` (addition), `-` (substraction), `*` (multiplication), `/` (division) `i/` (integer division) and `%` (modulo). All operators, except `/` perform on the two upmost elements on the stack, and push the result back on the stack as one number.
 
     5 2 -
     [3]
+
+`/` divides two integers, and push the result of the division onto the stack as two numbers (integer quotient and remainder). The remainder is always given as a number with six digits. In the case where the remainder exceeds six digits, no rounding is performed.
+
+    2 3 /
+    [666666; 0]
+
+In addition, the remainder can be computed directly with the `rem` operator.
+
+    2 3 rem
+    [666666]
 
 **Boolean operators**
 
@@ -111,3 +163,18 @@ The contents of a subroutine is contained within a line. So remeber to terminate
 
 `hprint` prints the content of the heap. This will list all declared subroutines.
 `sprint` prints the content of the stack. This is equal to the reply given by the interpreter.
+`quit` exits the interprenter.
+
+
+Releaselog
+----------
+
+**V 1.1**
+
+Changed behaviour of /. Integer division is now performed with i/ and / performs regular division.
+
+Added the command `quit`, `2dup`, `len`, `max`, `min` and `remainder`.
+
+**V 1.0**
+
+Initial release.

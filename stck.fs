@@ -2,6 +2,15 @@ open System
 open System.IO
 open System.Text.RegularExpressions
 
+let standard_library = [
+    ("2dup", ["over"; "over"]);
+    ("rem", ["dup"; "rot"; "swap"; "2dup"; "i/"; "*"; "-"; "1000000"; "*"; "swap"; "i/"]);
+    ("/", ["2dup"; "i/"; "rot"; "rot"; "rem"]);
+    ("empty", ["len"; "0"; "="]);
+    ("max", ["len"; "1"; "="; "not"; "?"; "2dup"; ">"; "?"; "swap"; "."; ":"; "."; ";"; "max"; ":"; ";"]);
+    ("min", ["len"; "1"; "="; "not"; "?"; "2dup"; "<"; "?"; "swap"; "."; ":"; "."; ";"; "min"; ":"; ";"])
+]
+
 let push e stack =
     e :: stack
 
@@ -28,7 +37,7 @@ let dup stack =
 
 let over stack =
     match stack with
-    | a :: b :: rest -> (b :: a :: b :: rest)
+    | a :: b :: rest -> b :: a :: b :: rest
     | _ ->
         printfn "Cannot over on the stack"
         stack
@@ -39,6 +48,8 @@ let rot stack =
     | _ ->
         printfn "Cannot rot on the stack"
         stack
+let len (stack:List<int>) =
+    push stack.Length stack
 
 let isInt string =
     let couldParse, value = Int32.TryParse(string)
@@ -103,16 +114,18 @@ let exec exp stack =
     | "dup" -> dup stack
     | "over" -> over stack
     | "rot" -> rot stack
+    | "len" -> len stack
     | "+" -> add stack
     | "-" -> substract stack
     | "*" -> multiply stack
-    | "/" -> divide stack
+    | "i/" -> divide stack
     | "%" -> modulo stack
     | "=" -> equal stack
     | ">" -> greater stack
     | "<" -> less stack
     | "not" -> not stack
     | "sprint" -> sprint stack
+    | "quit" -> exit 0
     | _ ->
         if isInt exp then
             push (Int32.Parse(exp)) stack
@@ -180,7 +193,6 @@ let rec eval exps hs =
             | [] -> eval tail (heap, exec head stack)
             | def -> eval (def @ tail) hs
 
-
 let rec loop hs =
     let exps = tokens (Console.ReadLine())
 
@@ -204,19 +216,22 @@ let lines (s:string) =
 
 let rec run file =
     let statements = lines (File.ReadAllText(file))
-    System.String.Join(" ", evaluate statements ([], []))
+    System.String.Join(" ", evaluate statements (standard_library, []))
+
+let load file =
+    match File.Exists(file) with
+        | false -> printfn "The file %s does not exist" file
+        | true -> printfn "%s" (run file)
 
 [<EntryPoint>]
 let main args =
     match Array.length args > 0 with
     | true ->
-        match File.Exists(args.[0]) with
-        | false -> printfn "The file %s does not exist" args.[0]
-        | true -> printfn "%s" (run args.[0])
+        load args.[0]
     | false ->
         printfn ""
-        printfn "Welcome to STCK 1.0, a stack-based programming language"
+        printfn "Welcome to STCK 1.1, a stack-based programming language"
         printfn ""
-        loop ([], [])
+        loop (standard_library, [])
 
     0
