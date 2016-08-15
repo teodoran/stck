@@ -10,7 +10,7 @@ STCK (pronounced stick) is is a programming languague inspired by [Forth](https:
 Installation
 ------------
 
-A very limited choice of prebuilt binaries can be found in the /binaries folder. If you can't find a binary that works for you, you'll need a F# compiler (fsharpc/fshapri) to compile the STCK interpreter. [This guide](http://fsharp.org/use/linux/) is usefull if you're using Linux. When the compiler is installed, navigate to the folder containing `stck.fs` and run:
+You'll need a F# compiler (fsharpc/fshapri) to compile the STCK interpreter. [This guide](http://fsharp.org/use/linux/) is usefull if you're using Linux. When the compiler is installed, navigate to the folder containing `stck.fs` and run:
 
     fsharpc stck.fs && ./stck.exe ./samples/euler-one.stck
 
