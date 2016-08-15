@@ -16,6 +16,17 @@ You'll need a F# compiler (fsharpc/fshapri) to compile the STCK interpreter. [Th
 
 This should compile the interpreter into stck.exe, and run a stck-program, solving the first [Project Euler](https://projecteuler.net/) problem. Just running stck.exe will launch the interactive interpreter.
 
+**Troubleshooting**
+
+_Permission denied when trying to run stck.exe on Linux:_
+
+Somtimes the compiled executable won't have sufficient permissions to be executed. This can be fixed by using chmod as shown under.
+
+    > ./stck.exe
+    bash: ./stck.exe: Permission denied
+    > chmod +x ./stck.exe
+
+
 
 Using the languague
 -------------------
