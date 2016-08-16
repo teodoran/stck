@@ -44,7 +44,7 @@
     </dict>
     <dict>
       <key>match</key>
-      <string>(?&lt;=^|\s)(?i:(\.|#|!|swap|dup|not|sprint|hprint|\?|:|;))(?=\s)</string>
+      <string>(?&lt;=^|\s)(?i:(\.|#|!|swap|dup|2dup|over|rot|len|empty|max|min|quit|not|sprint|hprint|\?|:|;))(?=\s)</string>
       <key>name</key>
       <string>keyword.other.immediate.stck</string>
     </dict>
