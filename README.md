@@ -2,7 +2,7 @@ STCK
 ====
 _a stack-based programming language_
 
-### [Try STCK live](http://trystck.herokuapp.com/)
+### [Try STCK in the browser](http://trystck.herokuapp.com/)
 
 _"INTERCAL allows only 2 different types of variables, the 16-bit integer and the 32-bit integer." - From the [INTERCAL Programming Language Revised Reference Manual](http://www.muppetlabs.com/~breadbox/intercal-man/s03.html)_
 
