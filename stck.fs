@@ -14,39 +14,41 @@ let standard_library = [
 let push e stack =
     e :: stack
 
+let printerr op = printfn "Cannot %s on the stack" op
+
 let drop stack =
     match stack with
     | tos :: rest -> rest
     | _ ->
-        printfn "Cannot drop from the stack"
+        printerr "drop"
         stack
 
 let swap stack =
     match stack with
     | a :: b :: rest -> b :: a :: rest
     | _ ->
-        printfn "Cannot swap on the stack"
+        printerr "swap"
         stack
 
 let dup stack =
     match stack with
     | tos :: rest -> tos :: tos :: rest
     | _ ->
-        printfn "Cannot dup on the stack"
+        printerr "dup"
         stack
 
 let over stack =
     match stack with
     | a :: b :: rest -> b :: a :: b :: rest
     | _ ->
-        printfn "Cannot over on the stack"
+        printerr "over"
         stack
 
 let rot stack =
     match stack with
     | a :: b :: c :: rest -> c :: a :: b :: rest
     | _ ->
-        printfn "Cannot rot on the stack"
+        printerr "rot"
         stack
 let len (stack:List<int>) =
     push stack.Length stack
@@ -59,7 +61,7 @@ let math op stack =
     match stack with
     | a :: b :: rest -> push (op a b) rest
     | _ ->
-        printfn "Cannot do math on the stack"
+        printerr "do math"
         stack
 
 let add stack = math (fun a b -> b + a) stack
@@ -130,7 +132,7 @@ let exec exp stack =
         if isInt exp then
             push (Int32.Parse(exp)) stack
         else
-            printfn "Does not compute %s" exp
+            printerr exp
             stack
 
 let define s heap =

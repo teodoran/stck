@@ -2,6 +2,8 @@ STCK
 ====
 _a stack-based programming language_
 
+[Try STCK live](http://trystck.herokuapp.com/)
+
 _"INTERCAL allows only 2 different types of variables, the 16-bit integer and the 32-bit integer." - From the [INTERCAL Programming Language Revised Reference Manual](http://www.muppetlabs.com/~breadbox/intercal-man/s03.html)_
 
 STCK (pronounced stick) is is a programming languague inspired by [Forth](https://en.wikipedia.org/wiki/Forth_(programming_language)). Variables are never declared, values is just placed on a global stack. Syntax is minimal. The only supported data-type is 32-bit integers.
