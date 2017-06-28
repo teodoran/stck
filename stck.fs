@@ -154,13 +154,14 @@ let rec split delim n col exps =
     match exps with
     | [] -> (col |> List.rev, [])
     | head :: tail ->
+        let recur n = split delim n (head :: col) tail
         match head with
-        | "?" -> split delim (n + 1) (head :: col) tail
+        | "?" -> recur (n + 1)
         | d when d = delim ->
             match n with
             | 0 -> (col |> List.rev, tail)
-            | _ -> split delim (n - 1) (head :: col) tail
-        | _ -> split delim n (head :: col) tail
+            | _ -> recur (n - 1)
+        | _ -> recur n
             
 let cond tos exps =
     let t = split ":" 0 [] exps
