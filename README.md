@@ -1,18 +1,18 @@
-STCK
-====
+STCK (Ash development branch)
+=============================
 _a stack-based programming language_
 
 ### [Try STCK in the browser](http://trystck.herokuapp.com/)
 
 _"INTERCAL allows only 2 different types of variables, the 16-bit integer and the 32-bit integer." - From the [INTERCAL Programming Language Revised Reference Manual](http://www.muppetlabs.com/~breadbox/intercal-man/s03.html)_
 
-STCK (pronounced stick) is a programming language inspired by [Forth](https://en.wikipedia.org/wiki/Forth_(programming_language)). Variables are never declared, values are just placed on a global stack. Syntax is minimal. The only supported data-type is 32-bit integers.
+STCK (pronounced stick) is is a programming languague inspired by [Forth](https://en.wikipedia.org/wiki/Forth_(programming_language)). Variables are never declared, values is just placed on a global stack. Syntax is minimal. The only supported data-type is 32-bit integers.
 
 
 Installation
 ------------
 
-You'll need a F# compiler (fsharpc/fsharpi) to compile the STCK interpreter. [This guide](http://fsharp.org/use/linux/) is useful if you're using Linux. When the compiler is installed, navigate to the folder containing `stck.fs` and run:
+You'll need a F# compiler (fsharpc/fshapri) to compile the STCK interpreter. [This guide](http://fsharp.org/use/linux/) is usefull if you're using Linux. When the compiler is installed, navigate to the folder containing `stck.fs` and run:
 
     fsharpc stck.fs && ./stck.exe ./samples/euler-one.stck
 
@@ -22,7 +22,7 @@ This should compile the interpreter into stck.exe, and run a stck-program, solvi
 
 _Permission denied when trying to run stck.exe on Linux:_
 
-Sometimes the compiled executable won't have sufficient permissions to be executed. This can be fixed by using chmod as shown under.
+Somtimes the compiled executable won't have sufficient permissions to be executed. This can be fixed by using chmod as shown under.
 
     > ./stck.exe
     bash: ./stck.exe: Permission denied
@@ -42,7 +42,7 @@ When using the interpreter, return acts as the line delimiter.
     2 3 +
     [5]
 
-The entire statement must fit on one line, as multi-line statements are not supported.
+The entire statement must fit on one line, as multi-line statements is not supported.
 
 When executing files, `!` acts as the line-delimiter, making it possible to declare statements over several lines.
 
@@ -118,18 +118,18 @@ _"A goal of a good Forth programmer is to minimize the use of these words, since
     1 -2 1 min
     [-2]
 
-In addition, the [Forth documentation](http://wiki.laptop.org/go/Forth_stack_operators) has a good description of different stack operators, along with reference implementations for less basic operators.
+In addition, the [Forth dokumentation](http://wiki.laptop.org/go/Forth_stack_operators) has a good description of different stack operators, along with reference implementations for less basic operators.
 
 **Math**
 
 _"For every epsilon>0 there is a delta>0 such that whenever |x-x_0|<delta, then |f(x)-f(x_0)|<epsilon." - From [Wikipedia](https://en.wikipedia.org/wiki/(%CE%B5,_%CE%B4)-definition_of_limit)_
 
-The following operators are supported: `+` (addition), `-` (substraction), `*` (multiplication), `/` (division) `i/` (integer division) and `%` (modulo). All operators except `/` act upon the two upmost elements on the stack, and push the result back on the stack as one number.
+The following operators are supported: `+` (addition), `-` (substraction), `*` (multiplication), `/` (division) `i/` (integer division) and `%` (modulo). All operators, except `/` perform on the two upmost elements on the stack, and push the result back on the stack as one number.
 
     5 2 -
     [3]
 
-`/` divides two integers, and pushes the result of the division onto the stack as two numbers (integer quotient and remainder). The remainder is always given as a number with six digits. In the case where the remainder exceeds six digits, no rounding is performed.
+`/` divides two integers, and push the result of the division onto the stack as two numbers (integer quotient and remainder). The remainder is always given as a number with six digits. In the case where the remainder exceeds six digits, no rounding is performed.
 
     2 3 /
     [666666; 0]
@@ -141,7 +141,7 @@ In addition, the remainder can be computed directly with the `rem` operator.
 
 **Boolean operators**
 
-False is represented by `0`(zero) and anything else is considered true. The following boolean operators are supported: `=` (equal), `>` (greater than), `<` (less than), and `not`. All operators except `not` act upon the two upmost elements on the stack, and push the result back on the stack.
+False is represented by `0`(zero) and anything else is considered true. The following boolean operators are supported: `=` (equal), `>` (greater than), `<` (less than), and `not`. All operators, except `not`, perform on the two upmost elements on the stack, and push the result back on the stack.
 
 **Conditionals**
 
@@ -164,7 +164,7 @@ Subroutines are declared by using `#`:
     2 add-five
     [7]
 
-The contents of a subroutine are contained within a line. So remember to terminate the subroutine declaration with `!` when not using the interactive interpreter.
+The contents of a subroutine is contained within a line. So remeber to terminate the subroutine declaration with `!` when not using the interactive interpreter.
 
     // some-file.stck !
     
@@ -176,16 +176,16 @@ The contents of a subroutine are contained within a line. So remember to termina
 
 _"Due to INTERCAL's implementation of comment lines, most error messages are produced during execution instead of during compilation." - From the [INTERCAL Programming Language Revised Reference Manual](http://www.muppetlabs.com/~breadbox/intercal-man/s09.html)_
 
-`//` indicates the start of a comment. Comments are considered statements, and therefore has to be delimited as regular lines with `!`.
+`//` indicates the start of a comment. Comments are considered as statements, and therefore has to be delimited as regulare lines with `!`.
 
     // This is a comment !
     
     // This 
     is also 
-    a comment !
+    a commet !
 
 **Utility functions**
 
 `hprint` prints the content of the heap. This will list all declared subroutines.
 `sprint` prints the content of the stack. This is equal to the reply given by the interpreter.
-`quit` exits the interpreter.
+`quit` exits the interprenter.
