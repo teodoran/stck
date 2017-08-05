@@ -1,9 +1,0 @@
-/home/teodoran/depot/stck/Stck.Tests/bin/Debug/netcoreapp1.1/Stck.Tests.deps.json
-/home/teodoran/depot/stck/Stck.Tests/bin/Debug/netcoreapp1.1/Stck.Tests.runtimeconfig.json
-/home/teodoran/depot/stck/Stck.Tests/bin/Debug/netcoreapp1.1/Stck.Tests.runtimeconfig.dev.json
-/home/teodoran/depot/stck/Stck.Tests/bin/Debug/netcoreapp1.1/Stck.Tests.dll
-/home/teodoran/depot/stck/Stck.Tests/bin/Debug/netcoreapp1.1/Stck.Tests.pdb
-/home/teodoran/depot/stck/Stck.Tests/bin/Debug/netcoreapp1.1/Stck.dll
-/home/teodoran/depot/stck/Stck.Tests/bin/Debug/netcoreapp1.1/Stck.pdb
-/home/teodoran/depot/stck/Stck.Tests/obj/Debug/netcoreapp1.1/Stck.Tests.dll
-/home/teodoran/depot/stck/Stck.Tests/obj/Debug/netcoreapp1.1/Stck.Tests.pdb

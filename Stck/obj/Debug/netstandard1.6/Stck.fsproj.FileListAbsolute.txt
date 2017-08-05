@@ -1,5 +1,0 @@
-/home/teodoran/depot/stck/Stck/bin/Debug/netstandard1.6/Stck.deps.json
-/home/teodoran/depot/stck/Stck/bin/Debug/netstandard1.6/Stck.pdb
-/home/teodoran/depot/stck/Stck/obj/Debug/netstandard1.6/Stck.dll
-/home/teodoran/depot/stck/Stck/obj/Debug/netstandard1.6/Stck.pdb
-/home/teodoran/depot/stck/Stck/bin/Debug/netstandard1.6/Stck.dll
