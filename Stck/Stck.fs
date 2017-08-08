@@ -76,7 +76,7 @@ and app c =
     let h, s = c
     match s with
     | Stack (Quotation q, r) -> apply q (h, r)
-    | _ -> (h, push (Exception MissingQuotation) Empty)
+    | _ -> (h, push (Exception MissingQuotation) s)
 
 let rec skip = function
     | [] | ["\""] -> []
@@ -103,8 +103,10 @@ let rec parse = function
 
 let lex (p : Program) =
     p
-    |> (fun s -> s.Replace("[", "[ "))
-    |> (fun s -> s.Replace("]", " ]"))
+    |> (fun s -> s.Replace("\n", ""))
+    |> (fun s -> s.Replace(".", " . "))
+    |> (fun s -> s.Replace("[", " [ "))
+    |> (fun s -> s.Replace("]", " ] "))
     |> (fun s -> s.Replace("\"", " \" "))
     |> (fun s -> s.Split([|' '|]))
     |> Array.toList

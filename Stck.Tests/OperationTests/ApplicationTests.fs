@@ -16,7 +16,7 @@ let tests =
                 "next and last should be applied to the stack, along with first"
 
         testCase "Applying a word should raise a MissingQuotation exception" <| fun _ ->
-            let expectedStack = Stack (Exception MissingQuotation, Empty)
+            let expectedStack = Stack (Exception MissingQuotation, Stack (Operation "a-word", Empty))
             let _, actualStack = (exec "a-word app" emptyContext)
             
             Expect.equal actualStack expectedStack
