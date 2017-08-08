@@ -2,6 +2,8 @@ STCK (Ash development branch)
 =============================
 _a stack-based programming language_
 
+[![Build status](https://ci.appveyor.com/api/projects/status/iapgn0af3k9kw94u/branch/ash?svg=true)](https://ci.appveyor.com/project/teodoran/stck/branch/ash)
+
 ### [Try STCK in the browser](http://trystck.herokuapp.com/)
 
 _"INTERCAL allows only 2 different types of variables, the 16-bit integer and the 32-bit integer." - From the [INTERCAL Programming Language Revised Reference Manual](http://www.muppetlabs.com/~breadbox/intercal-man/s03.html)_
