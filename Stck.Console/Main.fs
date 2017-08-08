@@ -66,18 +66,18 @@ let load f c =
         cprintfn ConsoleColor.Magenta "The file %s does not exist" f
         prompt c
 
+let rec read () = Console.ReadLine().Trim()
+
+let quit () =
+    cprintfn ConsoleColor.Green "%s" "Bye!"
+    exit 0
+
 let rec loop (c : Context) : Context =
-    let exps : Program = Console.ReadLine().Trim()
-    match exps with
-    | "#quit" ->
-        cprintfn ConsoleColor.Green "%s" "Bye!"
-        exit 0
-    | "#hprint" ->
-        c |> hprint |> loop
-    | s when s.StartsWith("#load ") ->
-        c |> load (s.Replace("#load ", "")) |> loop
-    | _ ->
-        c |> exec exps |> print |> loop
+    match read () with
+    | "#quit" -> quit ()    
+    | "#hprint" -> c |> hprint |> loop
+    | s when s.StartsWith("#load ") -> c |> load (s.Replace("#load ", "")) |> loop
+    | exps -> c |> exec exps |> print |> loop
 
 [<EntryPoint>]
 let main args =
