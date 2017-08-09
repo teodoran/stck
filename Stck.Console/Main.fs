@@ -62,13 +62,10 @@ let stdlibFile =
 
 let load f c =
     match File.Exists(f) with
+    | true -> eval (sprintf "```%s```" (File.ReadAllText(f))) c
     | false ->
         cprintfn ConsoleColor.Magenta "The file %s does not exist" f
-        prompt c
-    | true ->
         c
-        |> eval (sprintf "```%s```" (File.ReadAllText(f)))
-        |> prompt
 
 let rec read () = Console.ReadLine().Trim()
 
@@ -96,6 +93,7 @@ let main args =
         printfn ""
         emptyContext
         |> load stdlibFile
+        |> prompt
         |> loop 
         |> ignore
     0
