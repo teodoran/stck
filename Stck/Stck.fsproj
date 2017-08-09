@@ -5,12 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Stck.fs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="FSharp.Core" Version="4.1.*" />
     <PackageReference Include="FSharp.NET.Sdk" Version="1.0.*" PrivateAssets="All" />
+    
+    <Compile Include="Stck.fs" />
+    <None Include="stdlib.md" CopyToOutputDirectory="Always" />
   </ItemGroup>
 
 </Project>

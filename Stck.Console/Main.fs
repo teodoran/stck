@@ -2,9 +2,8 @@
 
 open System
 open System.IO
+open System.Reflection
 open Stck
-
-let emptyContext : Context = (Heap Map.empty, Empty)
 
 let cprintfn c fmt =
     let clr s =
@@ -56,15 +55,20 @@ let hprint c =
 
     prompt c
 
+let stdlibFile =
+    Path.Combine(
+        Path.GetDirectoryName(Assembly.GetEntryAssembly().Location),
+        stdlib)
+
 let load f c =
     match File.Exists(f) with
-    | true ->
-        c
-        |> exec (File.ReadAllText(f))
-        |> print
     | false ->
         cprintfn ConsoleColor.Magenta "The file %s does not exist" f
         prompt c
+    | true ->
+        c
+        |> exec (sprintf "```%s```" (File.ReadAllText(f)))
+        |> prompt
 
 let rec read () = Console.ReadLine().Trim()
 
@@ -75,9 +79,12 @@ let quit () =
 let rec loop (c : Context) : Context =
     match read () with
     | "#quit" -> quit ()    
-    | "#hprint" -> c |> hprint |> loop
-    | s when s.StartsWith("#load ") -> c |> load (s.Replace("#load ", "")) |> loop
-    | exps -> c |> exec exps |> print |> loop
+    | "#hprint" ->
+        c |> hprint |> loop
+    | s when s.StartsWith("#load ") ->
+        c |> load (s.Replace("#load ", "")) |> prompt |> loop
+    | exps ->
+        c |> exec exps |> print |> loop
 
 [<EntryPoint>]
 let main args =
@@ -87,6 +94,8 @@ let main args =
         printfn ""
         printfn "Welcome to STCK 2.0, a stack-based programming language"
         printfn ""
-        printf "$> "
-        loop emptyContext |> ignore
+        emptyContext
+        |> load stdlibFile
+        |> loop 
+        |> ignore
     0

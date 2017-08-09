@@ -21,6 +21,10 @@ type Heap = Heap of Map<Word, Stack>
 
 type Context = (Heap * Stack)
 
+let emptyContext : Context = (Heap Map.empty, Empty)
+
+let stdlib = "stdlib.md"
+
 let push e s = Stack (e, s)
 
 let drop = function
@@ -79,8 +83,8 @@ and app c =
     | _ -> (h, push (Exception MissingQuotation) s)
 
 let rec skip = function
-    | [] | ["\""] -> []
-    | "\""::t -> t
+    | [] | ["```"] -> []
+    | "```"::t -> t
     | h::t -> skip t
 
 let lift t =
@@ -95,7 +99,7 @@ let lift t =
 
 let rec parse = function
     | [] -> Empty
-    | "\""::r -> parse (skip r)
+    | "```"::r -> parse (skip r)
     | "["::lr ->
         let l, r = lift lr
         Stack (Quotation (parse l), parse r)
@@ -107,7 +111,7 @@ let lex (p : Program) =
     |> (fun s -> s.Replace(".", " . "))
     |> (fun s -> s.Replace("[", " [ "))
     |> (fun s -> s.Replace("]", " ] "))
-    |> (fun s -> s.Replace("\"", " \" "))
+    |> (fun s -> s.Replace("```", " ``` "))
     |> (fun s -> s.Split([|' '|]))
     |> Array.toList
     |> List.filter (function

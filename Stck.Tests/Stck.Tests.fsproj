@@ -6,22 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="*/*.fs" />
-    <Compile Include="Main.fs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="FSharp.Core" Version="4.1.*" />
     <PackageReference Include="FSharp.NET.Sdk" Version="1.0.*" PrivateAssets="All" />
     <PackageReference Include="Expecto" Version="5.*" />
+  
+    <ProjectReference Include="../Stck/Stck.fsproj" />
+  
+    <Compile Include="*/*.fs" />
+    <Compile Include="Main.fs" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="../Stck/Stck.fsproj">
-    </ProjectReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0" />
-  </ItemGroup>
+  
 </Project>
