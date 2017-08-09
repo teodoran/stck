@@ -48,6 +48,15 @@ IF = λp . λt . λe . p t e
 [swap <-] -> #
 [2dup -> rot rot <- and] <-> #
 
+Missing primitives
+------------------
+
+= -> symbol equality
+err -> is error
+throw -> UserDefineException throw
+
+empty -> [dup err [. true] [. false] ?]
+
 Math Operators
 --------------
 

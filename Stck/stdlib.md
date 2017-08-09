@@ -2,7 +2,7 @@ The STCK 2.0 Standard Library
 =============================
 
 Loading the standard library:
-#load Stck.Console/Samples/stdlib.stck
+#load Stck/stdlib.stck
 
 Derived stack operators
 -----------------------

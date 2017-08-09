@@ -67,7 +67,7 @@ let load f c =
         prompt c
     | true ->
         c
-        |> exec (sprintf "```%s```" (File.ReadAllText(f)))
+        |> eval (sprintf "```%s```" (File.ReadAllText(f)))
         |> prompt
 
 let rec read () = Console.ReadLine().Trim()
@@ -84,7 +84,7 @@ let rec loop (c : Context) : Context =
     | s when s.StartsWith("#load ") ->
         c |> load (s.Replace("#load ", "")) |> prompt |> loop
     | exps ->
-        c |> exec exps |> print |> loop
+        c |> eval exps |> print |> loop
 
 [<EntryPoint>]
 let main args =

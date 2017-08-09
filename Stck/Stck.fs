@@ -1,7 +1,5 @@
 module Stck
 
-type Program = string
-
 type Word = string
 
 type Error =
@@ -61,8 +59,8 @@ let define c =
 let rec apply s c : Context =
     match s with
     | Empty -> c
-    | Stack (e, r) -> apply r (eval e c)
-and eval e c =
+    | Stack (e, r) -> apply r (exec e c)
+and exec e c =
     let h, s = c
     let Heap hm, _ = c
     match e with
@@ -105,17 +103,24 @@ let rec parse = function
         Stack (Quotation (parse l), parse r)
     | w::r -> Stack (Operation w, parse r)
 
-let lex (p : Program) =
+let replace (a : string) (b : string) (s : string) : string = s.Replace(a, b)
+
+let sugar p =
     p
-    |> (fun s -> s.Replace("\n", ""))
-    |> (fun s -> s.Replace(".", " . "))
-    |> (fun s -> s.Replace("[", " [ "))
-    |> (fun s -> s.Replace("]", " ] "))
-    |> (fun s -> s.Replace("```", " ``` "))
+    |> replace "\n" ""
+    |> replace "\n" ""
+    |> replace "." " . "
+    |> replace "[" " [ "
+    |> replace "]" " ] "
+    |> replace "```" " ``` "
+
+let lex p =
+    p
+    |> sugar
     |> (fun s -> s.Split([|' '|]))
     |> Array.toList
     |> List.filter (function
         | "" -> false
         | _ -> true)
 
-let exec (p : Program) (c : Context) : Context = apply (parse (lex p)) c
+let eval (p : string) (c : Context) : Context = apply (parse (lex p)) c

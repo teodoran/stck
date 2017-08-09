@@ -33,7 +33,7 @@ let tests =
             0 1 2 fib-under-4m sum-if-even"
         
         let expectedStack = Stack (Operation "4613732", Empty)
-        let _, actualStack = (exec "[anonymous stack]" (Heap Map.empty, Empty))
+        let _, actualStack = (eval "[anonymous stack]" (Heap Map.empty, Empty))
         
         Expect.equal 42 42 "ignore this result for now"
         (*Expect.equal actualStack expectedStack
