@@ -50,6 +50,22 @@ let ontail = function
     | Stack (e, Stack (Quotation q, r)) -> Stack (Quotation (tail e q), r)
     | s -> push (Exception StackUnderflow) s
 
+let eq = function
+    | Stack (a, Stack (b, r)) ->
+        match a = b with
+        | true -> push (Quotation (Stack (Operation "true", Empty))) r
+        | false -> push (Quotation (Stack (Operation "false", Empty))) r
+    | s -> push (Exception StackUnderflow) s
+
+let throw = function
+    | Stack (Operation a, r) -> push (Exception (Failure a)) r
+    | s -> push (Exception StackUnderflow) s
+
+let err = function
+    | Stack (Exception _, r) -> push (Quotation (Stack (Operation "true", Empty))) r
+    | Stack (_, r) -> push (Quotation (Stack (Operation "false", Empty))) r
+    | s -> push (Exception StackUnderflow) s
+
 let define c =
     let Heap h, s = c
     match s with
@@ -69,6 +85,9 @@ and exec e c =
     | Operation "swap" -> (h, swap s)
     | Operation "<<" -> (h, ontop s)
     | Operation ">>" -> (h, ontail s)
+    | Operation "eq" -> (h, eq s)
+    | Operation "throw" -> (h, throw s)
+    | Operation "err" -> (h, err s)
     | Operation "#" -> define c
     | Operation "app" -> app c
     | Operation w when Map.containsKey w hm -> apply (Map.find w hm) c

@@ -55,7 +55,7 @@ Missing primitives
 err -> is error
 throw -> UserDefineException throw
 
-empty -> [dup err [. true] [. false] ?]
+empty -> [dup err]
 
 Math Operators
 --------------
@@ -80,7 +80,6 @@ Utility Operators
 sprint -> sprint (not core)
 quit -> exit 0 (not core)
 
-[len 0 =] empty #
 [empty [] [. clear] ?] clear #
 [len 1 = not [2dup > [swap .] [.] ? max] [] ?] max #
 [len 1 = not [2dup < [swap .] [.] ? min] [] ?] min #

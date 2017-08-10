@@ -30,9 +30,9 @@ IF = λp . λt . λe . p t e
 
 if -> ```[[] swap << swap << swap app app] ? #```
 
-not -> ```[[false] [true] if] not #```
+not -> ```[[false] [true] ?] not #```
 
-and -> ```[[[true] [false] if] swap << [false] if] and #```
+and -> ```[[[true] [false] ?] swap << [false] ?] and #```
 
 or -> ```[not swap not and not] or #```
 
@@ -43,3 +43,31 @@ Implication and equivalence
 ```[swap <-] -> #```
 
 ```[2dup -> rot rot <- and] <-> #```
+
+Math operations
+---------------
+
+onemore -> ```[[] swap <<] onemore #```
+
+addition -> ```[2dup 0 = [..] [. swap onemore swap app +] ?] + #```
+
+### Some numbers
+0 -> [0] 0 #
+
+1 -> ```[0 onemore] 1 #```
+
+2 -> ```[0 onemore onemore] 2 #```
+
+3 -> ```[0 onemore onemore onemore] 3 #```
+
+
+Still not organized operators
+-----------------------------
+
+equal -> ```[eq app] = #```
+
+error -> ```[err app] error #```
+
+empty -> ```[dup error] empty #```
+
+clear -> ```[empty [] [. clear] ?] clear #```
