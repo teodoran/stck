@@ -19,6 +19,9 @@ tail -> tail
 << -> [a [b] c] -> [a [c b]] (ontop)
 >> -> [a [b] c] -> [a [b c]] (ontail)
 
+|| -> [[a] [b]] -> [[a b]] (concat)
+| -> [[a b]] -> [[a] [b]] (chop)
+
 [[] swap << swap << swap >> app] rot #
 [swap dup rot rot] over #
 [over over] 2dup #

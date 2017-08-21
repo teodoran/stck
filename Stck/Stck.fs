@@ -50,6 +50,20 @@ let ontail = function
     | Stack (e, Stack (Quotation q, r)) -> Stack (Quotation (tail e q), r)
     | s -> push (Exception StackUnderflow) s
 
+let rec stail e s =
+    match s with
+    | Empty -> e
+    | Stack (h, t) -> Stack (h, stail e t)
+
+let concat = function
+    | Stack (Quotation q, Stack (Quotation q', r)) -> Stack (Quotation (stail q q'), r)
+    | s -> push (Exception StackUnderflow) s
+
+let chop = function
+    | Stack (Quotation Empty, r) -> Stack (Quotation Empty, Stack (Quotation Empty, r))
+    | Stack (Quotation (Stack (a, t)), r) -> Stack (Quotation (Stack (a, Empty)), Stack (Quotation t, r))
+    | s -> push (Exception StackUnderflow) s
+
 let eq = function
     | Stack (a, Stack (b, r)) ->
         match a = b with
@@ -85,6 +99,8 @@ and exec e c =
     | Operation "swap" -> (h, swap s)
     | Operation "<<" -> (h, ontop s)
     | Operation ">>" -> (h, ontail s)
+    | Operation "||" -> (h, concat s)
+    | Operation "|" -> (h, chop s)
     | Operation "eq" -> (h, eq s)
     | Operation "throw" -> (h, throw s)
     | Operation "err" -> (h, err s)
