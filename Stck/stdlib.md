@@ -47,18 +47,22 @@ Implication and equivalence
 Math operations
 ---------------
 
-onemore -> ```[[] swap <<] onemore #```
+INCREMENT = (n) -> (f) -> (x) -> f(n(f)(x))
 
-addition -> ```[2dup 0 = [..] [. swap onemore swap app +] ?] + #```
+Man ønsker å konstruere noe som lager [huh] [noe] -> (inc_resultat) app -> [huh] [noe] app [huh] app
+inc -> ```[[swap dup rot swap >> [app] ||] swap << [app] ||] inc #```
 
 ### Some numbers
-0 -> [0] 0 #
+0 -> ```[[.]] 0 #```
+1 -> ```[0 inc] 1 #```
+2 -> ```[1 inc] 2 #```
+3 -> ```[2 inc] 3 #```
 
-1 -> ```[0 onemore] 1 #```
+Man ønsker å konstruere noe som lager [huh] 2 3 * -> (2*3) app -> [[huh] 2 app] 3 app
+multiplication -> ```[[swap rot swap [app] swap << swap << swap app] swap << swap <<] * #```
 
-2 -> ```[0 onemore onemore] 2 #```
-
-3 -> ```[0 onemore onemore onemore] 3 #```
+Man ønsker å konstruere noe som lager [huh] 2 3 + -> (2+3) app -> [huh] 2 app [huh] 3 app
+addition -> ```[[app] swap << swap [app] swap << [rot dup rot swap << rot rot << || app] swap << swap <<] + #```
 
 
 Still not organized operators
