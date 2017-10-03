@@ -64,6 +64,10 @@ multiplication -> ```[[swap rot swap [app] swap << swap << swap app] swap << swa
 Man ønsker å konstruere noe som lager [huh] 2 3 + -> (2+3) app -> [huh] 2 app [huh] 3 app
 addition -> ```[[app] swap << swap [app] swap << [rot dup rot swap << rot rot << || app] swap << swap <<] + #```
 
+### Note!
+
+Enkod tall som par, og velg det andre når du skal ha et tall som er en mindre.
+
 
 Still not organized operators
 -----------------------------
