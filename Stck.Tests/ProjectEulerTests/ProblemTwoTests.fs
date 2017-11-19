@@ -36,5 +36,5 @@ let tests =
         let _, actualStack = (eval "[anonymous stack]" (Heap Map.empty, Empty))
         
         Expect.equal 42 42 "ignore this result for now"
-        (*Expect.equal actualStack expectedStack
-            "4613732 should be on the stack"*)
+        Expect.equal actualStack expectedStack
+            "4613732 should be on the stack"
