@@ -20,21 +20,69 @@ TRUE = λa . λb . a
 
 FALSE = λa . λb . b
 
-true -> ```[[app .]] true #```
+true -> ```[[.]] true #```
 
-false -> ```[[app swap .]] false #```
+$> foo bar true app
+[foo]
+
+false -> ```[[swap .]] false #```
+
+$> foo bar false app
+[bar]
 
 From there we can define boolean operators
 
 IF = λp . λt . λe . p t e
 
-if -> ```[[] swap << swap << swap app app] ? #```
+if -> ```[rot app app] ? #```
+
+$> true [foo] [bar] ?
+[foo]
+
+$> false [foo] [bar] ?
+[bar]
 
 not -> ```[[false] [true] ?] not #```
 
+$> true not [foo] [bar] ?
+[bar]
+
+$> false not [foo] [bar] ?
+[foo]
+
+$> foo bar true not app
+[bar]
+
+$> foo bar false not app
+[foo]
+
 and -> ```[[[true] [false] ?] swap << [false] ?] and #```
 
+$> foo bar false true and app
+[bar]
+
+$> foo bar true true and app
+[foo]
+
+$> true false and [foo] [bar] ?
+[bar]
+
+$> true true and [foo] [bar] ?
+[foo]
+
 or -> ```[not swap not and not] or #```
+
+$> foo bar true false or app
+[foo]
+
+$> foo bar false false or app
+[bar]
+
+$> true false or [foo] [bar] ?
+[foo]
+
+$> false false or [foo] [bar] ?
+[bar]
 
 Implication and equivalence
 
