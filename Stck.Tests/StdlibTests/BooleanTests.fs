@@ -5,7 +5,7 @@ open Expecto
 open Stck
 
 let emptyContext = (Heap Map.empty, Empty)
-let stdlibFile = File.ReadAllText(sprintf "../Stck/%s" stdlib)
+let stdlibFile = File.ReadAllText(Path.Combine("..", "Stck", stdlib))
 let stdlibContext = eval (sprintf "```%s```" stdlibFile) emptyContext
 
 [<Tests>]
