@@ -9,6 +9,8 @@
     <PackageReference Include="Expecto" Version="5.*" />
     <ProjectReference Include="../Stck/Stck.fsproj" />
   
+    <!-- Load StdlibLoader before compiling StdlibTests, because they depend on it -->
+    <Compile Include="StdlibTests/StdlibLoader.fs" />
     <Compile Include="*/*.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>

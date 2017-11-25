@@ -1,15 +1,10 @@
 module StdlibTests.BooleanTests
 
-open System.IO
-open System.Reflection
 open Expecto
 open Stck
 
 let emptyContext = (Heap Map.empty, Empty)
-let stdlibFile = 
-    File.ReadAllText(
-        Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), stdlib))
-let stdlibContext = eval (sprintf "```%s```" stdlibFile) emptyContext
+let stdlibContext = eval (StdlibLoader.load stdlib) emptyContext
 
 [<Tests>]
 let tests =
