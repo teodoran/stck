@@ -1,18 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <!--<OutputType>Exe</OutputType>-->
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Expecto" Version="5.*" />
+    <PackageReference Include="FsUnit.xUnit" Version="3.0.0" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
+    <!--<PackageReference Include="Expecto" Version="5.*" />-->
     <ProjectReference Include="../Stck/Stck.fsproj" />
-  
     <!-- Load StdlibLoader before compiling StdlibTests, because they depend on it -->
-    <Compile Include="StdlibTests/StdlibLoader.fs" />
-    <Compile Include="*/*.fs" />
-    <Compile Include="Main.fs" />
+    <!--<Compile Include="StdlibTests/StdlibLoader.fs" />-->
+    <!--<Compile Include="*/*.fs" />-->
+    <Compile Include="ProjectEulerTests/*.fs" />
+    <!--<Compile Include="Main.fs" />-->
   </ItemGroup>
-  
 </Project>
