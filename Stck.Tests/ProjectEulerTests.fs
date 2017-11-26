@@ -1,4 +1,4 @@
-module ProjectEulerTests.ProblemTwoTests
+module ProjectEulerTests
 
 open Xunit
 open FsUnit.Xunit

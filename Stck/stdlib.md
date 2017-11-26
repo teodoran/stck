@@ -16,8 +16,8 @@ Booleans
 --------
 Booleans uses the classic lambda calculus encoding
 
-TRUE = λa . λb . a
-FALSE = λa . λb . b
+True = λa . λb . a
+False = λa . λb . b
 
 true -> ```[[.]] true #```
 false -> ```[[swap .]] false #```
@@ -45,16 +45,16 @@ Implication and equivalence
 Math operations
 ---------------
 
-INCREMENT = (n) -> (f) -> (x) -> f(n(f)(x))
+Successor = (n) -> (f) -> (x) -> f(n(f)(x))
 
-Man ønsker å konstruere noe som lager [huh] [noe] -> (inc_resultat) app -> [huh] [noe] app [huh] app
-inc -> ```[[swap dup rot swap >> [app] ||] swap << [app] ||] inc #```
+Man ønsker å konstruere noe som lager [huh] [noe] -> (succ_resultat) app -> [huh] [noe] app [huh] app
+succ -> ```[[swap dup rot swap >> [app] ||] swap << [app] ||] succ #```
 
 ### Some numbers
 0 -> ```[[.]] 0 #```
-1 -> ```[0 inc] 1 #```
-2 -> ```[1 inc] 2 #```
-3 -> ```[2 inc] 3 #```
+1 -> ```[0 succ] 1 #```
+2 -> ```[1 succ] 2 #```
+3 -> ```[2 succ] 3 #```
 
 Man ønsker å konstruere noe som lager [huh] 2 3 * -> (2*3) app -> [[huh] 2 app] 3 app
 multiplication -> ```[[swap rot swap [app] swap << swap << swap app] swap << swap <<] * #```

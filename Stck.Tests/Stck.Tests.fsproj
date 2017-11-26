@@ -12,7 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="*/*.fs" />
+    <Compile Include="TestUtil.fs" />
+    <Compile Include="CoreOperationTests.fs" />
+    <Compile Include="StdlibTests.fs" />
+    <Compile Include="ProjectEulerTests.fs" />
   </ItemGroup>
 
 </Project>
