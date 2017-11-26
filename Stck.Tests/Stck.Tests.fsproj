@@ -12,8 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Load StdlibLoader before compiling StdlibTests, because they depend on it -->
-    <Compile Include="StdlibTests/StdlibLoader.fs" />
     <Compile Include="*/*.fs" />
   </ItemGroup>
 

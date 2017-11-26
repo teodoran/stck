@@ -1,11 +1,15 @@
 module StdlibTests.NumeralTests
 
+open System.IO
 open Xunit
 open FsUnit.Xunit
 open Stck
 
 let emptyContext = (Heap Map.empty, Empty)
-let stdlibContext = eval (StdlibLoader.load stdlib) emptyContext
+let stdlibContext =
+    File.ReadAllText(stdlib)
+    |> sprintf "```%s```"
+    |> (fun lib -> eval lib emptyContext)
 
 [<Fact>]
 let ``0 should apply a function zero times`` () =
