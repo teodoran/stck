@@ -1,23 +1,20 @@
 module OperationTest.CommentTests
 
-open Expecto
+open Xunit
+open FsUnit.Xunit
 open Stck
 
 let emptyContext = (Heap Map.empty, Empty)
 
-[<Tests>]
-let tests =
-    testList "Comment tests" [
-        testCase "A comment should be ignored" <| fun _ ->
-            let _, actualStack = (eval "```This is a comment```" emptyContext)
-            
-            Expect.equal actualStack Empty
-                "the stack should be empty"
-        
-        testCase "Comments should not affect other parts of the program" <| fun _ ->
-            let expectedStack = Stack (Operation "last", Stack (Operation "first", Empty))
-            let _, actualStack = (eval "first ```should not be affected``` last" emptyContext)
-            
-            Expect.equal actualStack expectedStack
-                "first and last should be on the stack"
-    ]
+[<Fact>]
+let ``A comment should be ignored`` () =
+    let _, actualStack = (eval "```This is a comment```" emptyContext)
+    
+    actualStack |> should equal Empty
+
+[<Fact>]
+let ``Comments should not affect other parts of the program`` () =
+    let expectedStack = Stack (Operation "last", Stack (Operation "first", Empty))
+    let _, actualStack = (eval "first ```should not be affected``` last" emptyContext)
+    
+    actualStack |> should equal expectedStack
