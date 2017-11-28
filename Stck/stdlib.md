@@ -48,10 +48,10 @@ Math operations
 Successor = (n) -> (f) -> (x) -> f(n(f)(x))
 
 Man ønsker å konstruere noe som lager [huh] [noe] -> (succ_resultat) app -> [huh] [noe] app [huh] app
-succ -> ```[[swap dup rot swap >> [app] ||] swap << [app] ||] succ #```
+succ -> ```[| [swap dup rot swap ||] rot || ||] succ #```
 
 ### Some numbers
-0 -> ```[[.]] 0 #```
+0 -> ```[[[.] app]] 0 #```
 1 -> ```[0 succ] 1 #```
 2 -> ```[1 succ] 2 #```
 3 -> ```[2 succ] 3 #```
