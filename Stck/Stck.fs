@@ -64,13 +64,6 @@ let chop = function
     | Stack (Quotation (Stack (a, t)), r) -> Stack (Quotation (Stack (a, Empty)), Stack (Quotation t, r))
     | s -> push (Exception StackUnderflow) s
 
-let eq = function
-    | Stack (a, Stack (b, r)) ->
-        match a = b with
-        | true -> push (Quotation (Stack (Operation "true", Empty))) r
-        | false -> push (Quotation (Stack (Operation "false", Empty))) r
-    | s -> push (Exception StackUnderflow) s
-
 let throw = function
     | Stack (Operation a, r) -> push (Exception (Failure a)) r
     | s -> push (Exception StackUnderflow) s
@@ -101,7 +94,6 @@ and exec e c =
     | Operation ">>" -> (h, ontail s)
     | Operation "||" -> (h, concat s)
     | Operation "|" -> (h, chop s)
-    | Operation "eq" -> (h, eq s)
     | Operation "throw" -> (h, throw s)
     | Operation "err" -> (h, err s)
     | Operation "#" -> define c

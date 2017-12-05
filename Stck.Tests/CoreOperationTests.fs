@@ -49,11 +49,6 @@ open Stck
 [<InlineData("[word-content] my-word # my-word", "word-content")>]
 [<InlineData("not-quotation my-word #", "not-quotation my-word Exception: StackUnderflow")>]
 
-// equal / eq
-[<InlineData("is-not equal eq", "[false]")>]
-[<InlineData("[is [equal]] [is [equal]] eq", "[true]")>]
-[<InlineData("one eq", "one Exception: StackUnderflow")>]
-
 // exceptions
 [<InlineData("fail throw", "Exception: fail")>]
 [<InlineData("throw", "Exception: StackUnderflow")>]
