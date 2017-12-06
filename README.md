@@ -8,152 +8,187 @@ _a stack-based programming language_
 
 _"INTERCAL allows only 2 different types of variables, the 16-bit integer and the 32-bit integer." - From the [INTERCAL Programming Language Revised Reference Manual](http://www.muppetlabs.com/~breadbox/intercal-man/s03.html)_
 
-STCK (pronounced stick) is is a programming languague inspired by [Forth](https://en.wikipedia.org/wiki/Forth_(programming_language)). Variables are never declared, values is just placed on a global stack. Syntax is minimal. The only supported data-type is 32-bit integers.
+STCK (pronounced stick) is is a programming language inspired by [Forth](https://en.wikipedia.org/wiki/Forth_(programming_language)). Variables are never declared, values is just placed on a global stack. Syntax is minimal.
+
+The only supported data-type used to be 32-bit integers, but now we handle all that with [Church encoding](https://en.wikipedia.org/wiki/Church_encoding).
 
 
 Installation
 ------------
 
-You'll need a F# compiler (fsharpc/fshapri) to compile the STCK interpreter. [This guide](http://fsharp.org/use/linux/) is usefull if you're using Linux. When the compiler is installed, navigate to the folder containing `stck.fs` and run:
+You'll need dotnet core 2.0 to compile the STCK interpreter. You'll probably struggle a bit to get everything working on Linux. Google is your friend.
 
-    fsharpc stck.fs && ./stck.exe ./samples/euler-one.stck
+When the compiler is installed, navigate to the folder `/Stck.Console` and run:
 
-This should compile the interpreter into stck.exe, and run a stck-program, solving the first [Project Euler](https://projecteuler.net/) problem. Just running stck.exe will launch the interactive interpreter.
+    dotnet restore
+    dotnet build
+    dotnet run
 
-**Troubleshooting**
-
-_Permission denied when trying to run stck.exe on Linux:_
-
-Somtimes the compiled executable won't have sufficient permissions to be executed. This can be fixed by using chmod as shown under.
-
-    > ./stck.exe
-    bash: ./stck.exe: Permission denied
-    > chmod +x ./stck.exe
+This should compile and launch the interactive interpreter. Execute `#quit` to get out.
 
 
-
-Using the languague
--------------------
+Using the language
+------------------
 
 _"Beware of the Turing tar-pit in which everything is possible but nothing of interest is easy." - [Alan J. Perlis](http://pu.inf.uni-tuebingen.de/users/klaeren/epigrams.html)_
 
-**Delimiting lines**
+**Pushing symbols**
 
-When using the interpreter, return acts as the line delimiter.
+Write a word, any word, and press enter. You now have a symbol on the stack.
 
-    2 3 +
-    [5]
+    $> any-word
+    [any-word]
 
-The entire statement must fit on one line, as multi-line statements is not supported.
+Write another one, and then another.
 
-When executing files, `!` acts as the line-delimiter, making it possible to declare statements over several lines.
+    $> another-one and-then-another
+    [any-word another-one and-then-another]
 
-    2 3
-    +
-    !
+You now got three symbols on the stack. What can I do with those you might ask, and that would be a nice segway into...
 
-Lines cannot be nested.
-
-**working with the stack**
+**Working with the stack**
 
 _"A goal of a good Forth programmer is to minimize the use of these words, since they are only moving data around instead of doing useful work." - From the [The OLPC Wiki](http://wiki.laptop.org/go/Forth_stack_operators)_
 
 `.` will drop one element from the stack.
 
-    2 3 4
-    [4; 3; 2]
-    .
-    [3; 2]
+    [any-word another-one and-then-another]
+    $> .
+    [any-word another-one]
+
 
 `swap` will swap the two upmost elements on the stack.
 
-    2 3 4
-    [3; 2; 4]
-    swap
-    [2; 3; 4]
+    [any-word another-one]
+    $> swap
+    [another-one any-word]
+
 
 `dup` will duplicate the topmost element on the stack (TOS)
 
-    2
-    [2]
-    dup
-    [2; 2]
+    [another-one any-word]
+    $> dup
+    [another-one any-word any-word]
+
 
 `2dup` will duplicate the two topmost elements on the stack.
 
-    2 3
-    [3; 2]
-    2dup
-    [3; 2; 3; 2]
+    [another-one any-word any-word]
+    $> 2dup
+    [another-one any-word any-word any-word any-word]
+
+Did I mention that you can drop several elements at once?
+
+    [another-one any-word any-word any-word any-word]
+    $> ...
+    [another-one any-word]
 
 `over` will copy the second element on the stack.
 
-    2 3
-    [3; 2]
-    over
-    [2; 3; 2]
+    [another-one any-word]
+    $> over
+    [another-one any-word another-one]
 
 `rot` will move the third element to the top of the stack.
 
-    1 2 3
-    [3; 2; 1]
-    rot
-    [1; 3; 2]
+    [another-one any-word another-one]
+    $> rot
+    [any-word another-one another-one]
 
-`len` will return the size of the stack and push the size onto the stack.
+`empty` will check if the stack is empty, and push the result onto the stack as a [Church encoded boolean](./Stck/stdlib.md#booleans).
 
-    1 1
-    [1; 1]
-    len
-    [2; 1; 1]
-
-`empty` will check if the stack is empty, and push the result onto the stack.
-
+    [any-word another-one another-one]
+    $> empty
+    [any-word another-one another-one [. swap]]
+    $> clear
     []
-    empty
-    [1]
+    $> empty
+    [[.]]
 
-`max` and `min` will remove all elements on the stack, leaving only the largest or smallest integer.
-
-    1 3 1 max
-    [3]
-    1 -2 1 min
-    [-2]
-
-In addition, the [Forth dokumentation](http://wiki.laptop.org/go/Forth_stack_operators) has a good description of different stack operators, along with reference implementations for less basic operators.
+In addition, the [Forth documentation](http://wiki.laptop.org/go/Forth_stack_operators) has a good description of different stack operators, along with reference implementations for less basic operators.
 
 **Math**
 
 _"For every epsilon>0 there is a delta>0 such that whenever |x-x_0|<delta, then |f(x)-f(x_0)|<epsilon." - From [Wikipedia](https://en.wikipedia.org/wiki/(%CE%B5,_%CE%B4)-definition_of_limit)_
 
-The following operators are supported: `+` (addition), `-` (substraction), `*` (multiplication), `/` (division) `i/` (integer division) and `%` (modulo). All operators, except `/` perform on the two upmost elements on the stack, and push the result back on the stack as one number.
+All numerals are Church encoded and the following operators are supported: `+` (addition), `-` (subtraction), `*` and `%` (modulo). All operators perform on the two upmost elements on the stack, and push the result back on the stack as one number.
 
-    5 2 -
-    [3]
+    []
+    $> 1 1 +
+    [[app || << rot rot << swap rot dup rot [app [app || swap rot dup swap [.]]] [app [app || swap rot dup swap [.]]]]]
 
-`/` divides two integers, and push the result of the division onto the stack as two numbers (integer quotient and remainder). The remainder is always given as a number with six digits. In the case where the remainder exceeds six digits, no rounding is performed.
+Reading [stdlib.md](./Stck/stdlib.md) might help if that didn't make a lot of sense.
 
-    2 3 /
-    [666666; 0]
+In addition tha following predicates are supported for comparing numbers: `is-zero`, `<=` (less or equal), `>=` (greater or equal) and `=` (equal).
 
-In addition, the remainder can be computed directly with the `rem` operator.
+**Booleans**
 
-    2 3 rem
-    [666666]
+Booleans are also Church encoded, and again [stdlib.md](./Stck/stdlib.md) is your friend. `true` is true and `false`is false.
 
-**Boolean operators**
+The following boolean operators are supported: `not` (not), `and` (and), `or` (or), `<-` (left implication), `->` (right implication) and `<->` (equivalence).
 
-False is represented by `0`(zero) and anything else is considered true. The following boolean operators are supported: `=` (equal), `>` (greater than), `<` (less than), and `not`. All operators, except `not`, perform on the two upmost elements on the stack, and push the result back on the stack.
+**Anonymous stacks (Quotations)**
+
+_"Anonymous stacks gives STCK the power of lambda functions™" - Anonymous STCK developer_
+
+Chunks of STCK code can be pushed to the stack inside of anonymous stacks.
+
+    []
+    $> [false not]
+    [[not false]]
+
+Note how `false` and `not` wasn't executed. At a later time, the contents of an anonymous stack can be applied to the stack using `app`.
+
+    [[not false]]
+    $> app
+    [[.]]
+
+Anonymous stacks can be nested.
+
+    $> [this [is [nested]]]
+    [[[[nested] is] this]]
+    $> app
+    [this [[nested] is]]
+    $> app
+    [this is [nested]]
+    $> app
+    [this is nested]
+
+A different set of stack operators work on anonymous stacks.
+
+`||` (concat) will concatenate two anonymous stacks.
+
+    $> [a b] [c d] ||
+    [[d c b a]]
+
+`|` (chop) will chop off the first element of the anonymous stack into a new anonymous stack.
+
+    $> [a b c] |
+    [[c b] [a]]
+
+`<<` (ontop) pushes an element to the front of another anonymous stack.
+
+    $> [last] first <<
+    [[last first]]
+
+`>>` (ontail) pushes an element to the end of another anonymous stack.
+
+    $> [last] first >>
+    [[first last]]
 
 **Conditionals**
 
-Conditionals follow the if-then-else construct: `<a boolean> ? <this will happen if true> : <this will happen if false> ;`
+Conditionals follow the good old then-else-if construct: `<a boolean> [this anonymous stack will be applied if true] [this anonymous stack will be applied if false] ?`
 
-    3 3 = ? 1337 : 192 ;
-    [1337]
+    []
+    $> true [this anonymous stack will be applied if true] [this anonymous stack will be applied if false] ?
+    [this anonymous stack will be applied if [.]]
 
-    3 17 = ? 1337 : 192 ;
-    [192]
+    []
+    $> false [hot] [or-not] ?
+    [or-not]
+
+To be precise `?` is a subroutine that pops three elements from the stack, considers the last one to be a boolean, and applies either one or the other of the arguments.
 
 **Subroutines**
 
@@ -161,33 +196,26 @@ _"What is a definition? Well classically a definition was colon something, and w
 
 Subroutines are declared by using `#`:
 
-    # add-five 5 +
-    []
-    2 add-five
-    [7]
-
-The contents of a subroutine is contained within a line. So remeber to terminate the subroutine declaration with `!` when not using the interactive interpreter.
-
-    // some-file.stck !
-    
-    # add-five 5 + !
-    
-    2 add-five !
+    [5 +] add-five #
+    $> add-five
+    ...
 
 **Comments**
 
 _"Due to INTERCAL's implementation of comment lines, most error messages are produced during execution instead of during compilation." - From the [INTERCAL Programming Language Revised Reference Manual](http://www.muppetlabs.com/~breadbox/intercal-man/s09.html)_
 
-`//` indicates the start of a comment. Comments are considered as statements, and therefore has to be delimited as regulare lines with `!`.
+` ``` ` indicates the start and end of a comment. This is useful, as it enables STCK-programs to be embedded in markdown files.
 
-    // This is a comment !
-    
-    // This 
-    is also 
-    a commet !
+    []
+    $> ```This is a comment!```
+    []
 
 **Utility functions**
 
-`hprint` prints the content of the heap. This will list all declared subroutines.
-`sprint` prints the content of the stack. This is equal to the reply given by the interpreter.
-`quit` exits the interprenter.
+The interpreter defines a couple of utility functions, not strictly part of the STCK language.
+
+`#hprint` prints the content of the heap. This will list all declared subroutines.
+
+`#quit` exits the interpreter.
+
+`#load` loads external STCK-programs.
