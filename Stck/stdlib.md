@@ -1,117 +1,119 @@
 The STCK 2.0 Standard Library
 =============================
 
-Loading the standard library:
-#load Stck/stdlib.stck
+Stck.Console handles loading of external STCK-code. You could e.g. load the standard library by using:
+
+    #load Stck/stdlib.stck
 
 Derived stack operators
 -----------------------
-rot -> ```[[] swap << swap << swap >> app] rot #```
+__rot__ -> ```[[] swap << swap << swap >> app] rot #```
 
-over -> ```[swap dup rot rot] over #```
+__over__ -> ```[swap dup rot rot] over #```
 
-2dup -> ```[over over] 2dup #```
+__2dup__ -> ```[over over] 2dup #```
 
 Booleans
 --------
-Booleans uses the classic lambda calculus encoding
+Booleans uses the classic lambda calculus encoding.
 
-True = λa . λb . a
-False = λa . λb . b
+    true = λa . λb . a / false = λa . λb . b
 
-true -> ```[[.]] true #```
-false -> ```[[swap .]] false #```
+__true__ -> ```[[.]] true #```
 
-From there we can define boolean operators
+__false__ -> ```[[swap .]] false #```
 
-IF = λp . λt . λe . p t e
+From there we can define boolean operators.
 
-if -> ```[rot app app] ? #```
+    if = λp . λt . λe . p t e
 
-not -> ```[[false] [true] ?] not #```
+__if__ -> ```[rot app app] ? #```
+__not__ -> ```[[false] [true] ?] not #```
+__and__ -> ```[[[true] [false] ?] swap << [false] ?] and #```
+__or__ -> ```[not swap not and not] or #```
 
-and -> ```[[[true] [false] ?] swap << [false] ?] and #```
+We can compare booleans with implication and equivalence.
 
-or -> ```[not swap not and not] or #```
+__Left implication__ -> ```[not or] <- #```
 
-Implication and equivalence
+__Right implication__ -> ```[swap <-] -> #```
 
-```[not or] <- #```
-
-```[swap <-] -> #```
-
-```[2dup -> rot rot <- and] <-> #```
+__Equivalence__ -> ```[2dup -> rot rot <- and] <-> #```
 
 Math operations
 ---------------
 
-Successor = (n) -> (f) -> (x) -> f(n(f)(x))
+Numerals is also encoded using Church encoding. We start with the successor function.
 
-Man ønsker å konstruere noe som lager [huh] [noe] -> (succ_resultat) app -> [huh] [noe] app [huh] app
-succ -> ```[| [swap dup rot swap ||] rot || ||] succ #```
+    successor = (n) -> (f) -> (x) -> f(n(f)(x))
 
-### Some numbers
-0 -> ```[[[.] app]] 0 #```
-1 -> ```[0 succ] 1 #```
-2 -> ```[1 succ] 2 #```
-3 -> ```[2 succ] 3 #```
-4 -> ```[3 succ] 4 #```
-5 -> ```[4 succ] 5 #```
-6 -> ```[5 succ] 6 #```
-7 -> ```[6 succ] 7 #```
-8 -> ```[7 succ] 8 #```
-9 -> ```[8 succ] 9 #```
-10 -> ```[9 succ] 10 #```
-100 -> ```[10 10 *] 100 #```
-1000 -> ```[100 10 *] 1000 #```
-1M -> ```[1000 1000 *] 1M #```
+__succ__ -> ```[| [swap dup rot swap ||] rot || ||] succ #```
 
-Man ønsker å konstruere noe som lager [huh] 2 3 * -> (2*3) app -> [[huh] 2 app] 3 app
-multiplication -> ```[[swap rot swap [app] swap << swap << swap app] swap << swap <<] * #```
+Then we can define some numbers.
 
-Man ønsker å konstruere noe som lager [huh] 2 3 + -> (2+3) app -> [huh] 2 app [huh] 3 app
-addition -> ```[[app] swap << swap [app] swap << [rot dup rot swap << rot rot << || app] swap << swap <<] + #```
+0. ```[[[.] app]] 0 #```
+1. ```[0 succ] 1 #```
+2. ```[1 succ] 2 #```
+3. ```[2 succ] 3 #```
+4. ```[3 succ] 4 #```
+5. ```[4 succ] 5 #```
+6. ```[5 succ] 6 #```
+7. ```[6 succ] 7 #```
+8. ```[7 succ] 8 #```
+9. ```[8 succ] 9 #```
+10. ```[9 succ] 10 #```
+100. ```[10 10 *] 100 #```
+1000. ```[100 10 *] 1000 #```
+1000000. ```[1000 1000 *] 1M #```
 
-### Predecessor
-pred-first -> ```[0 false] pred-first #```
+We can multiply and add the numbers together.
+
+__multiplication__ -> ```[[swap rot swap [app] swap << swap << swap app] swap << swap <<] * #```
+
+__addition__ -> ```[[app] swap << swap [app] swap << [rot dup rot swap << rot rot << || app] swap << swap <<] + #```
+
+Then for the tricky part, defining the predecessor function. The general ide is to group together a number and boolean.
+
+__pred-first__ -> ```[0 false] pred-first #```
+
+Then you want a function that increments the number so it's one less than the number of times the function has been called. It goes something like this:
+
+0. `pred-first` -> `0 false`
+1. `pred-first pred-next` -> `0 true`
+2. `pred-first pred-next pred-next` -> `1 true`
+3. ...
+
+__pred-next__ -> ```[[succ true] [true] ?] pred-next #```
+
+Now we can construct the predecessor function by applying the number to pred-first and pred-next, and then drop the boolean at the end.
+
+__pred__ -> ```[pred-first rot [pred-next] swap app .] pred #```
+
+With a predecessor function we can define subtraction.
+
+__subtraction__ -> ```[[pred] swap app] - #```
+
+We might also want some predicates to convert numbers to booleans.
+
+__is-zero__ -> ```[true [. false] rot app] is-zero #```
+
+__less-or-equal__ -> ```[swap - is-zero] <= #```
+
+__greater-or-equal__ -> ```[- is-zero] >= #```
+
+__equal__ -> ```[2dup >= rot rot <= and] = #```
+
+Finally we can make a remainder/modulo operation.
+
+__remainder__ -> ```[2dup <= [dup rot swap - swap %] [.] ?] % #```
 
 
-Hvordan skal pred-next fungere?
-pred-first: 0 false
-pred-first pred-next: 0 true
-pred-first pred-next pred-next: 1 true
-pred-first pred-next pred-next pred-next: 2 true
-pred-first pred-next pred-next pred-next pred-next: 3 true
-pred-next -> ```[[succ true] [true] ?] pred-next #```
+Operators currently in beta
+---------------------------
+You should probably not use these operators before they're out of beta...
 
-pred -> ```[pred-first rot [pred-next] swap app .] pred #```
+__error__ -> ```[err app] error #```
 
-x [f] pred-first pred-next 3 app . -> pred-first pred-next pred-next pred-next -> 2 true . -> 2
+__empty__ -> ```[emp app] empty #```
 
-Man ønsker å konstruere noe som lager [huh] 3 2 - -> (3-2) app -> [huh] 2 app [huh] 3 app
-substraction -> ```[[pred] swap app] - #```
-
-### Predicates
-is-zero -> ```[true [. false] rot app] is-zero #```
-less-or-equal -> ```[swap - is-zero] <= #```
-greater-or-equal -> ```[- is-zero] >= #```
-equal -> ```[2dup >= rot rot <= and] = #```
-
-### remainder/modulo (%)
-
-remainder -> ```[2dup <= [dup rot swap - swap %] [.] ?] % #```
-
-
-### Note!
-
-Enkod tall som par, og velg det andre når du skal ha et tall som er en mindre.
-
-
-Still not organized operators
------------------------------
-
-error -> ```[err app] error #```
-
-empty -> ```[dup error] empty #``` TODO: Empty is buggy
-
-clear -> ```[empty [] [. clear] ?] clear #```
+__clear__ -> ```[empty [] [. clear] ?] clear #```
