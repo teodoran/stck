@@ -1,8 +1,0 @@
-{
-  "cmd": ["stck.exe", "$file"],
-  "osx": {
-    "cmd": ["stck", "$file"]
-  },
-  "file_regex": "^((.*)\\.(stck(i|x)?))\\(([0-9]*),([0-9]*)\\):.*$",
-  "selector": "source.fsharp"
-}

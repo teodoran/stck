@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FsUnit.xUnit" Version="3.0.0" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
+    <ProjectReference Include="../Stck/Stck.fsproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="TestUtil.fs" />
+    <Compile Include="CoreOperationTests.fs" />
+    <Compile Include="StdlibTests.fs" />
+    <Compile Include="ProjectEulerTests.fs" />
+  </ItemGroup>
+
+</Project>
