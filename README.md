@@ -1,8 +1,8 @@
-STCK (Ash development branch)
-=============================
+STCK (Ash edition)
+==================
 _a stack-based programming language_
 
-[![Build status](https://ci.appveyor.com/api/projects/status/iapgn0af3k9kw94u/branch/ash?svg=true)](https://ci.appveyor.com/project/teodoran/stck/branch/ash)
+[![Build status](https://ci.appveyor.com/api/projects/status/iapgn0af3k9kw94u/branch/master?svg=true)](https://ci.appveyor.com/project/teodoran/stck/branch/master)
 
 ### [Try STCK in the browser](http://trystck.herokuapp.com/)
 
@@ -225,3 +225,11 @@ The interpreter defines a couple of utility functions, not strictly part of the 
 `quit` exits the interpreter.
 
 `load` loads external STCK-programs.
+
+
+Projects using STCK
+-------------------
+
+**[hyperstck](https://github.com/einarwh/hyperstck)** - _A hypermedia-driven evaluator for the Stck programming language_
+
+**[REST-STCK](https://github.com/teodoran/rest-stck)** - _Arbitrary Computation as a Service (ACaaS)_
