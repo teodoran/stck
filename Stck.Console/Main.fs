@@ -7,27 +7,14 @@ open Stck
 
 let cprintfn c fmt =
     let clr s =
-        let old = System.Console.ForegroundColor
+        let old = Console.ForegroundColor
         try
-          System.Console.ForegroundColor <- c;
+          Console.ForegroundColor <- c;
           System.Console.Write (s + "\n")
         finally
-          System.Console.ForegroundColor <- old
+          Console.ForegroundColor <- old
 
     Printf.kprintf clr fmt
-
-let rec strs = function
-    | Empty -> ""
-    | Stack (e, Empty) -> stre e
-    | Stack (e, r) -> sprintf "%s %s" (strs r) (stre e)
-and stre = function
-    | Operation w -> w
-    | Quotation q -> sprintf "[%s]" (strs q)
-    | Exception e ->
-        match e with
-        | StackUnderflow -> "Exception: StackUnderflow"
-        | MissingQuotation -> "Exception: MissingQuotation"
-        | Failure s -> sprintf "Exception: %s" s
 
 let rec color = function
     | Empty -> ConsoleColor.Yellow
@@ -38,12 +25,12 @@ let prompt c =
     printf "$> "
     c
 
-let print c =
+let print strfy c =
     let _, s = c
-    cprintfn (color s) "[%s]" (strs s)
+    cprintfn (color s) "[%s]" (strfy c)
     prompt c
 
-let hprint c =
+let hprint strfy c =
     let Heap hm, _ = c
     
     hm
@@ -51,7 +38,7 @@ let hprint c =
     |> Seq.iter (fun d ->
         let w, s = d
         cprintfn ConsoleColor.Cyan "%s ->" w
-        cprintfn ConsoleColor.Yellow "    [%s]" (strs s))
+        cprintfn ConsoleColor.Yellow "    [%s]" (strfy c))
 
     prompt c
 
@@ -72,16 +59,17 @@ let rec read () = Console.ReadLine().Trim()
 let quit () =
     cprintfn ConsoleColor.Green "%s" "Bye!"
     exit 0
-
-let rec loop (c : Context) : Context =
+let rec loop strfy (c : Context) : Context =
     match read () with
-    | "#quit" -> quit ()    
-    | "#hprint" ->
-        c |> hprint |> loop
-    | s when s.StartsWith("#load ") ->
-        c |> load (s.Replace("#load ", "")) |> prompt |> loop
+    | "quit" -> quit ()
+    | "church" -> c |> print stringifyc |> loop stringifyc
+    | "unchurch" -> c |> print stringify |> loop stringify
+    | "hprint" ->
+        c |> hprint strfy |> loop strfy
+    | s when s.StartsWith("load ") ->
+        c |> load (s.Replace("load ", "")) |> prompt |> loop strfy
     | exps ->
-        c |> eval exps |> print |> loop
+        c |> eval exps |> print strfy |> loop strfy
 
 [<EntryPoint>]
 let main args =
@@ -94,6 +82,6 @@ let main args =
         emptyContext
         |> load stdlibFile
         |> prompt
-        |> loop 
+        |> loop stringify
         |> ignore
     0

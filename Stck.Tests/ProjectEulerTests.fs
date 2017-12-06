@@ -39,12 +39,11 @@ let ``STCK should solve project euler problem No 1`` () =
                 [.] ?
         ] sum-numbers #
 
-        0 9 generate-numbers sum-numbers x swap [f] swap app"
+        0 9 generate-numbers sum-numbers"
     
-    let _, actualStack = (eval program stdlibContext)
-
-    actualStack |> strs |> should equal "x f f f f f f f f f f f f f f f f f f f f f f f" // 23
-
+    (eval program stdlibContext)
+    |> stringify
+    |> should equal "23"
 
 [<Fact>]
 let ``STCK should solve project euler problem No 2`` () =
@@ -73,8 +72,8 @@ let ``STCK should solve project euler problem No 2`` () =
             swap next-is-zero [.] [swap sum-if-even] ?
         ] sum-if-even #
 
-        x [f] 0 1 2 fib-under-10 sum-if-even app"
+        0 1 2 fib-under-10 sum-if-even"
     
-    let _, actualStack = (eval program stdlibContext)
-
-    actualStack |> strs |> should equal "x f f f f f f f f f f" // 10
+    (eval program stdlibContext)
+    |> stringify
+    |> should equal "10"

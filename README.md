@@ -24,7 +24,7 @@ When the compiler is installed, navigate to the folder `/Stck.Console` and run:
     dotnet build
     dotnet run
 
-This should compile and launch the interactive interpreter. Execute `#quit` to get out.
+This should compile and launch the interactive interpreter. Execute `quit` to get out.
 
 
 Using the language
@@ -115,11 +115,17 @@ All numerals are Church encoded and the following operators are supported: `+` (
 
     []
     $> 1 1 +
+    [2]
+
+Numerals and booleans are "unchurched" for readability. This can be turned off with the command `church`.
+
+    [2]
+    $> church
     [[app || << rot rot << swap rot dup rot [app [app || swap rot dup swap [.]]] [app [app || swap rot dup swap [.]]]]]
 
-Reading [stdlib.md](./Stck/stdlib.md) might help if that didn't make a lot of sense.
+You can turn on unchurching again with the command `unchurch`. Reading [stdlib.md](./Stck/stdlib.md) might help if that didn't make a lot of sense.
 
-In addition tha following predicates are supported for comparing numbers: `is-zero`, `<=` (less or equal), `>=` (greater or equal) and `=` (equal).
+In addition the following predicates are supported for comparing numbers: `is-zero`, `<=` (less or equal), `>=` (greater or equal) and `=` (equal).
 
 **Booleans**
 
@@ -141,7 +147,7 @@ Note how `false` and `not` wasn't executed. At a later time, the contents of an 
 
     [[not false]]
     $> app
-    [[.]]
+    [true]
 
 Anonymous stacks can be nested.
 
@@ -197,8 +203,8 @@ _"What is a definition? Well classically a definition was colon something, and w
 Subroutines are declared by using `#`:
 
     [5 +] add-five #
-    $> add-five
-    ...
+    $> 2 add-five
+    [7]
 
 **Comments**
 
@@ -214,8 +220,8 @@ _"Due to INTERCAL's implementation of comment lines, most error messages are pro
 
 The interpreter defines a couple of utility functions, not strictly part of the STCK language.
 
-`#hprint` prints the content of the heap. This will list all declared subroutines.
+`hprint` prints the content of the heap. This will list all declared subroutines.
 
-`#quit` exits the interpreter.
+`quit` exits the interpreter.
 
-`#load` loads external STCK-programs.
+`load` loads external STCK-programs.

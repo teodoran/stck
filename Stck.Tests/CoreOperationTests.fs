@@ -2,7 +2,6 @@ module CoreOperationTests
 
 open Xunit
 open FsUnit.Xunit
-open TestUtil
 open Stck
 
 [<Theory>]
@@ -63,6 +62,6 @@ open Stck
 [<InlineData("```This is a comment```", "")>]
 [<InlineData("first ```should not be affected``` last", "first last")>]
 let withoutDependencies(``the expression`` : string) (``should evaluate to`` : string) =
-    let _, actualStack = (eval ``the expression`` emptyContext)
-    
-    actualStack |> strs |> should equal ``should evaluate to``
+    (eval ``the expression`` emptyContext)
+    |> stringify
+    |> should equal ``should evaluate to``

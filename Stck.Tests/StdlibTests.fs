@@ -95,6 +95,6 @@ open Stck
 [<InlineData("x [f] 5 3 % app", "x f f")>]
 [<InlineData("x [f] 3 5 % app", "x f f f")>]
 let withStdlib(``the expression`` : string) (``should evaluate to`` : string) =
-    let _, actualStack = (eval ``the expression`` stdlibContext)
-    
-    actualStack |> strs |> should equal ``should evaluate to``
+    (eval ``the expression`` stdlibContext)
+    |> stringify
+    |> should equal ``should evaluate to``

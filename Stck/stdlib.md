@@ -3,7 +3,7 @@ The STCK 2.0 Standard Library
 
 Stck.Console handles loading of external STCK-code. You could e.g. load the standard library by using:
 
-    #load Stck/stdlib.stck
+    load Stck/stdlib.stck
 
 Derived stack operators
 -----------------------
