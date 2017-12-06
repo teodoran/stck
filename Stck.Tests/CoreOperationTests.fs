@@ -24,6 +24,9 @@ open Stck
 // swap
 [<InlineData("last first swap", "first last")>]
 [<InlineData("one swap", "one Exception: StackUnderflow")>]
+// emp
+[<InlineData("emp", "[true]")>]
+[<InlineData("something emp", "something [false]")>]
 
 // anonymous stacks and their operations
 // anonymous stacks / quotations ([])
