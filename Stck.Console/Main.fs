@@ -38,7 +38,7 @@ let hprint strfy c =
     |> Seq.iter (fun d ->
         let w, s = d
         cprintfn ConsoleColor.Cyan "%s ->" w
-        cprintfn ConsoleColor.Yellow "    [%s]" (strfy c))
+        cprintfn ConsoleColor.Yellow "    [%s]" (strfy (Heap hm, s)))
 
     prompt c
 
