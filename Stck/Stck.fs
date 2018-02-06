@@ -155,7 +155,7 @@ let lex p =
         | "" -> false
         | _ -> true)
 
-let eval (p : string) (c : Context) : Context = apply (parse (lex p)) c
+let eval (p : string) (c : Context) : Context = (lex >> parse >> apply) p c
 
 let rec numeral = function
     | Empty -> 0
