@@ -4,8 +4,11 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>    
+  <ItemGroup>
     <Compile Include="Stck.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="stdlib.md" CopyToOutputDirectory="Always" />
   </ItemGroup>
 

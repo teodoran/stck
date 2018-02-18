@@ -1,2 +1,9 @@
+# Ignore dotnet build folders
 bin/
 obj/
+
+# Ignore minicover output
+coverage-html
+coverage.json
+coverage.xml
+coverage-hits.txt

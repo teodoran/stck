@@ -42,6 +42,7 @@ open Stck
 [<InlineData("one |", "one Exception: StackUnderflow")>]
 // ontail (>>)
 [<InlineData("[last] first >>", "[first last]")>]
+[<InlineData("one >>", "one Exception: StackUnderflow")>]
 // ontop (<<)
 [<InlineData("[last] first <<", "[last first]")>]
 [<InlineData("one <<", "one Exception: StackUnderflow")>]
