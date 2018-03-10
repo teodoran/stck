@@ -1,0 +1,35 @@
+version: ash-1.0.{build}
+pull_requests:
+  do_not_increment_build_number: true
+image: Visual Studio 2015
+install:
+- ps: >-
+    choco install opencover.portable
+    choco install codecov
+    dotnet restore ./Stck.Tests/Stck.Tests.fsproj
+build_script:
+- ps: dotnet build ./Stck.Tests/Stck.Tests.fsproj
+test_script:
+- ps: >-
+    cd ./Stck.Tests
+
+    dotnet restore
+    dotnet build
+
+    # Instrument assemblies
+    dotnet minicover instrument --workdir ../ --assemblies Stck.Tests/bin/**/*.dll --sources Stck/**/*.fs
+    # Reset hits count in case minicover was run for this project
+    dotnet minicover reset
+    # Run tests
+    dotnet xunit -nobuild --fx-version 2.0.0
+    # Uninstrument assemblies, it's important if you're going to publish or deploy build outputs
+    dotnet minicover uninstrument --workdir ../
+    # Create a OpenCover-formatted report
+    dotnet minicover opencoverreport --workdir ../ --threshold 90
+
+    cd ..
+
+    # Upload coverage results to codecov.io
+    $env:PATH = 'C:\msys64\usr\bin;' + $env:PATH
+    Invoke-WebRequest -Uri 'https://codecov.io/bash' -OutFile codecov.sh
+    bash codecov.sh -f "opencovercoverage.xml"
