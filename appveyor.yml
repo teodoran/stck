@@ -6,30 +6,24 @@ install:
   - ps: choco install opencover.portable
   - ps: choco install codecov
 build_script:
-- ps: >-
-    dotnet restore ./Stck.Tests/Stck.Tests.fsproj
-    dotnet build ./Stck.Tests/Stck.Tests.fsproj
+  - ps: dotnet restore ./Stck.Tests/Stck.Tests.fsproj
+  - ps: dotnet build ./Stck.Tests/Stck.Tests.fsproj
 test_script:
-- ps: >-
-    cd ./Stck.Tests
-
-    dotnet restore
-    dotnet build
-
-    # Instrument assemblies
-    dotnet minicover instrument --workdir ../ --assemblies Stck.Tests/bin/**/*.dll --sources Stck/**/*.fs
-    # Reset hits count in case minicover was run for this project
-    dotnet minicover reset
-    # Run tests
-    dotnet xunit -nobuild --fx-version 2.0.0
-    # Uninstrument assemblies, it's important if you're going to publish or deploy build outputs
-    dotnet minicover uninstrument --workdir ../
-    # Create a OpenCover-formatted report
-    dotnet minicover opencoverreport --workdir ../ --threshold 90
-
-    cd ..
-
-    # Upload coverage results to codecov.io
-    $env:PATH = 'C:\msys64\usr\bin;' + $env:PATH
-    Invoke-WebRequest -Uri 'https://codecov.io/bash' -OutFile codecov.sh
-    bash codecov.sh -f "opencovercoverage.xml"
+  - ps: cd ./Stck.Tests
+  - ps: dotnet restore
+  - ps: dotnet build
+      # Instrument assemblies
+  - ps: dotnet minicover instrument --workdir ../ --assemblies Stck.Tests/bin/**/*.dll --sources Stck/**/*.fs
+      # Reset hits count in case minicover was run for this project
+  - ps: dotnet minicover reset
+      # Run tests
+  - ps: dotnet xunit -nobuild --fx-version 2.0.0
+      # Uninstrument assemblies, it's important if you're going to publish or deploy build outputs
+  - ps: dotnet minicover uninstrument --workdir ../
+      # Create a OpenCover-formatted report
+  - ps: dotnet minicover opencoverreport --workdir ../ --threshold 90
+  - ps: cd ..
+      # Upload coverage results to codecov.io
+  - ps: $env:PATH = 'C:\msys64\usr\bin;' + $env:PATH
+  - ps: Invoke-WebRequest -Uri 'https://codecov.io/bash' -OutFile codecov.sh
+  - ps: bash codecov.sh -f "opencovercoverage.xml"
