@@ -62,6 +62,9 @@ open Stck
 // comments (```comment```)
 [<InlineData("```This is a comment```", "")>]
 [<InlineData("first ```should not be affected``` last", "first last")>]
+
+// this is quite interesting
+[<InlineData("[swap >> app]", "1")>]
 let withoutDependencies(``the expression`` : string) (``should evaluate to`` : string) =
     (eval ``the expression`` emptyContext)
     |> stringify
