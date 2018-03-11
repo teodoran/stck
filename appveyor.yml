@@ -6,9 +6,10 @@ install:
 - ps: >-
     choco install opencover.portable
     choco install codecov
-    dotnet restore ./Stck.Tests/Stck.Tests.fsproj
 build_script:
-- ps: dotnet build ./Stck.Tests/Stck.Tests.fsproj
+- ps: >-
+    dotnet restore ./Stck.Tests/Stck.Tests.fsproj
+    dotnet build ./Stck.Tests/Stck.Tests.fsproj
 test_script:
 - ps: >-
     cd ./Stck.Tests
