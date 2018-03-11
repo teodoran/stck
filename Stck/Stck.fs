@@ -115,7 +115,7 @@ and app c =
 let rec skip = function
     | [] | ["```"] -> []
     | "```"::t -> t
-    | h::t -> skip t
+    | _::t -> skip t
 
 let lift t =
     let rec recur n l r =
@@ -170,37 +170,29 @@ let unchurch h (n : Stack) =
     let _, s = app (h, Stack (Quotation n, Stack (Quotation (Stack (Operation "I", Empty)), Empty)))
     (isnumeral s, numeral s)
 
-let rec stringify = function
+let churchq (h : Heap) (s : Stack) f : string = sprintf "[%s]" (f (h, s))
+
+let unchurchq (h : Heap) (s : Stack) f : string =
+    match unchurch h s with
+    | (true, n) -> sprintf "%d" n
+    | _ -> sprintf "[%s]" (f (h, s))
+
+let rec stringifyf f = function
     | (_, Empty) -> ""
-    | (h, Stack (e, Empty)) -> stre h e
-    | (h, Stack (e, r)) -> sprintf "%s %s" (stringify (h, r)) (stre h e)
-and stre (h : Heap) (se : StackElement) =
+    | (h, Stack (e, Empty)) -> stre h e f
+    | (h, Stack (e, r)) -> sprintf "%s %s" (stringifyf f (h, r)) (stre h e f)
+and stre (h : Heap) (se : StackElement) f =
     match se with
     | Operation w -> w
     | Quotation (Stack (Operation ".", Empty)) -> "true"
     | Quotation ((Stack (Operation "swap", Stack (Operation ".", Empty)))) -> "false"
-    | Quotation q ->
-        match unchurch h q with
-        | (true, n) -> sprintf "%d" n
-        | _ -> sprintf "[%s]" (stringify (h, q))
+    | Quotation q -> f h q (stringifyf f)
     | Exception e ->
         match e with
         | StackUnderflow -> "Exception: StackUnderflow"
         | MissingQuotation -> "Exception: MissingQuotation"
         | Failure s -> sprintf "Exception: %s" s
 
-let rec stringifyc = function
-    | (_, Empty) -> ""
-    | (h, Stack (e, Empty)) -> strec h e
-    | (h, Stack (e, r)) -> sprintf "%s %s" (stringifyc (h, r)) (strec h e)
-and strec (h : Heap) (se : StackElement) =
-    match se with
-    | Operation w -> w
-    | Quotation (Stack (Operation ".", Empty)) -> "true"
-    | Quotation ((Stack (Operation "swap", Stack (Operation ".", Empty)))) -> "false"
-    | Quotation q -> sprintf "[%s]" (stringifyc (h, q))
-    | Exception e ->
-        match e with
-        | StackUnderflow -> "Exception: StackUnderflow"
-        | MissingQuotation -> "Exception: MissingQuotation"
-        | Failure s -> sprintf "Exception: %s" s
+let rec stringify = stringifyf unchurchq
+
+let rec stringifyc = stringifyf churchq
