@@ -3,9 +3,8 @@ pull_requests:
   do_not_increment_build_number: true
 image: Visual Studio 2015
 install:
-- ps: >-
-    choco install opencover.portable
-    choco install codecov
+  - ps: choco install opencover.portable
+  - ps: choco install codecov
 build_script:
 - ps: >-
     dotnet restore ./Stck.Tests/Stck.Tests.fsproj
