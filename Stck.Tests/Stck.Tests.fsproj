@@ -19,10 +19,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="TestUtil.fs" />
-    <Compile Include="CoreOperationTests.fs" />
-    <Compile Include="StdlibTests.fs" />
-    <Compile Include="ProjectEulerTests.fs" />
+    <Compile Include="RunTests.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="core-operations-tests.md" CopyToOutputDirectory="Always" />
+    <None Include="stdlib-tests.md" CopyToOutputDirectory="Always" />
+    <None Include="project-euler-tests.md" CopyToOutputDirectory="Always" />
   </ItemGroup>
   
 </Project>

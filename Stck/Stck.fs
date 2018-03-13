@@ -2,10 +2,7 @@ module Stck
 
 type Word = string
 
-type Error =
-    | StackUnderflow
-    | MissingQuotation
-    | Failure of string
+type Error = string
 
 type StackElement =
     | Operation of Word
@@ -23,23 +20,25 @@ let emptyContext : Context = (Heap Map.empty, Empty)
 
 let stdlib = "stdlib.md"
 
+let underflow = Exception "STACK_UNDERFLOW"
+
 let push e s = Stack (e, s)
 
 let drop = function
     | Stack (_, r) -> r
-    | Empty -> push (Exception StackUnderflow) Empty
+    | Empty -> push underflow Empty
 
 let dup = function
     | Stack (e, t) -> Stack (e, Stack (e, t))
-    | Empty -> push (Exception StackUnderflow) Empty
+    | Empty -> push underflow Empty
 
 let swap = function
     | Stack (a, Stack (b, t)) -> Stack (b, Stack (a, t))
-    | s -> push (Exception StackUnderflow) s
+    | s -> push underflow s
 
 let ontop = function
     | Stack (e, Stack (Quotation q, r)) -> Stack (Quotation (push e q), r)
-    | s -> push (Exception StackUnderflow) s
+    | s -> push underflow s
 
 let rec tail e s =
     match s with
@@ -48,7 +47,7 @@ let rec tail e s =
 
 let ontail = function
     | Stack (e, Stack (Quotation q, r)) -> Stack (Quotation (tail e q), r)
-    | s -> push (Exception StackUnderflow) s
+    | s -> push underflow s
 
 let rec stail e s =
     match s with
@@ -57,31 +56,31 @@ let rec stail e s =
 
 let concat = function
     | Stack (Quotation q, Stack (Quotation q', r)) -> Stack (Quotation (stail q q'), r)
-    | s -> push (Exception StackUnderflow) s
+    | s -> push underflow s
 
 let chop = function
     | Stack (Quotation Empty, r) -> Stack (Quotation Empty, Stack (Quotation Empty, r))
     | Stack (Quotation (Stack (a, t)), r) -> Stack (Quotation (Stack (a, Empty)), Stack (Quotation t, r))
-    | s -> push (Exception StackUnderflow) s
+    | s -> push underflow s
 
 let emp = function
     | Empty -> push (Quotation (Stack (Operation "true", Empty))) Empty
     | s -> push (Quotation (Stack (Operation "false", Empty))) s
 
 let throw = function
-    | Stack (Operation a, r) -> push (Exception (Failure a)) r
-    | s -> push (Exception StackUnderflow) s
+    | Stack (Operation a, r) -> push (Exception a) r
+    | s -> push underflow s
 
 let err = function
     | Stack (Exception _, r) -> push (Quotation (Stack (Operation "true", Empty))) r
     | Stack (_, r) -> push (Quotation (Stack (Operation "false", Empty))) r
-    | s -> push (Exception StackUnderflow) s
+    | s -> push underflow s
 
 let define c =
     let Heap h, s = c
     match s with
     | Stack (Operation w, Stack (Quotation q, r)) -> (Heap (Map.add w q h), r)
-    | _ -> (Heap h, (push (Exception StackUnderflow) s))
+    | _ -> (Heap h, (push underflow s))
 
 let rec apply s c : Context =
     match s with
@@ -103,6 +102,7 @@ and exec e c =
     | Operation "err" -> (h, err s)
     | Operation "#" -> define c
     | Operation "app" -> app c
+    | Operation "eq" -> eq c
     | Operation w when Map.containsKey w hm -> apply (Map.find w hm) c
     | Exception _ -> c
     | symbol -> (h, push symbol s)
@@ -110,7 +110,17 @@ and app c =
     let h, s = c
     match s with
     | Stack (Quotation q, r) -> apply q (h, r)
-    | _ -> (h, push (Exception MissingQuotation) s)
+    | _ -> (h, push (Exception "MISSING_QUOTATION") s)
+and eq c =
+    let h, s = c
+    match s with
+    | Stack (Quotation q1, Stack (Quotation q2, r)) ->
+        let ha, a = apply q1 (h, Empty)
+        let hb, b = apply q2 (h, Empty)
+        match a = b with
+        | true -> (ha, push (Quotation (Stack (Operation ".", Empty))) r)
+        | false -> (hb, push (Quotation (Stack (Operation "swap", Stack (Operation ".", Empty)))) r)
+    | _ -> (h, push (Exception "MISSING_QUOTATION") s)
 
 let rec skip = function
     | [] | ["```"] -> []
@@ -187,11 +197,7 @@ and stre (h : Heap) (se : StackElement) f =
     | Quotation (Stack (Operation ".", Empty)) -> "true"
     | Quotation ((Stack (Operation "swap", Stack (Operation ".", Empty)))) -> "false"
     | Quotation q -> f h q (stringifyf f)
-    | Exception e ->
-        match e with
-        | StackUnderflow -> "Exception: StackUnderflow"
-        | MissingQuotation -> "Exception: MissingQuotation"
-        | Failure s -> sprintf "Exception: %s" s
+    | Exception e -> sprintf "Exception: %s" e
 
 let rec stringify = stringifyf unchurchq
 
