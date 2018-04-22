@@ -47,7 +47,8 @@ Numerals is also encoded using Church encoding. We start with the successor func
 
     successor = (n) -> (f) -> (x) -> f(n(f)(x))
 
-__succ__ -> ```[| [swap dup rot swap ||] rot || ||] succ #```
+__pick__ -> ```[swap dup rot swap ||] pick #```
+__succ__ -> ```[| [pick] rot || ||] succ #```
 
 Then we can define some numbers.
 
