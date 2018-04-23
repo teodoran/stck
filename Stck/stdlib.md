@@ -29,7 +29,7 @@ From there we can define boolean operators.
 
 __if__ -> ```[rot app app] ? #```
 __not__ -> ```[[false] [true] ?] not #```
-__and__ -> ```[[[true] [false] ?] swap << [false] ?] and #```
+__and__ -> ```[swap dup app] and #```
 __or__ -> ```[not swap not and not] or #```
 
 We can compare booleans with implication and equivalence.
