@@ -2,6 +2,8 @@ STCK (Ash edition)
 ==================
 _a stack-based programming language_
 
+![STCK logo](logo.png)
+
 [![Build status](https://ci.appveyor.com/api/projects/status/iapgn0af3k9kw94u/branch/master?svg=true)](https://ci.appveyor.com/project/teodoran/stck/branch/master) [![codecov](https://codecov.io/gh/teodoran/stck/branch/master/graph/badge.svg)](https://codecov.io/gh/teodoran/stck)
 
 ### [Try STCK in the browser](http://trystck.herokuapp.com/) _(Supports currently only [STCK - Oak edition](https://github.com/teodoran/stck/tree/8c650438b3a9ceec46436e781152ab386b9b525c))_
