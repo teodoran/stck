@@ -6,7 +6,7 @@ _a stack-based programming language_
 
 [![Build status](https://ci.appveyor.com/api/projects/status/iapgn0af3k9kw94u/branch/master?svg=true)](https://ci.appveyor.com/project/teodoran/stck/branch/master) [![codecov](https://codecov.io/gh/teodoran/stck/branch/master/graph/badge.svg)](https://codecov.io/gh/teodoran/stck)
 
-### [Try STCK in the browser](http://trystck.herokuapp.com/) _(Supports currently only [STCK - Oak edition](https://github.com/teodoran/stck/tree/8c650438b3a9ceec46436e781152ab386b9b525c))_
+### [Try STCK in the browser](https://teodoran.github.io/try-stck)
 
 _"INTERCAL allows only 2 different types of variables, the 16-bit integer and the 32-bit integer." - From the [INTERCAL Programming Language Revised Reference Manual](http://www.muppetlabs.com/~breadbox/intercal-man/s03.html)_
 
