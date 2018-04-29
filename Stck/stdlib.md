@@ -28,7 +28,7 @@ From there we can define boolean operators.
     if = λp . λt . λe . p t e
 
 __if__ -> ```[rot app app] ? #```
-__not__ -> ```[[false] [true] ?] not #```
+__not__ -> ```[false true rot app] not #```
 __and__ -> ```[swap dup app] and #```
 __or__ -> ```[not swap not and not] or #```
 
