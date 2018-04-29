@@ -1,5 +1,5 @@
-STCK (Ash edition)
-==================
+STCK
+====
 _a stack-based programming language_
 
 ![STCK logo](logo.png)
