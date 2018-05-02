@@ -1,4 +1,5 @@
 module Stck
+open System.Collections.Generic
 
 type Word = string
 
@@ -170,29 +171,42 @@ let unchurch h (n : Stack) =
     let _, s = app (h, Stack (Quotation n, Stack (Quotation (Stack (Operation "I", Empty)), Empty)))
     (isnumeral s, numeral s)
 
-let churchq (h : Heap) (s : Stack) f : string = sprintf "[%s]" (f (h, s))
+let rec reverse s =
+    let rec recur s acc =
+        match s with
+        | Empty -> acc
+        | Stack (e, r) -> recur r (Stack (e, acc))
+    recur s Empty
 
-let unchurchq (h : Heap) (s : Stack) f : string =
-    match unchurch h s with
-    | (true, n) -> sprintf "%d" n
-    | _ -> sprintf "[%s]" (f (h, s))
-
-let rec stringifyf f = function
+let rec stringify = function
     | (_, Empty) -> ""
-    | (h, Stack (e, Empty)) -> stre h e f
-    | (h, Stack (e, r)) -> sprintf "%s %s" (stringifyf f (h, r)) (stre h e f)
-and stre (h : Heap) (se : StackElement) f =
+    | (h, Stack (e, Empty)) -> stre h e
+    | (h, Stack (e, r)) -> sprintf "%s %s" (stringify (h, r)) (stre h e)
+and stre (h : Heap) (se : StackElement) =
     match se with
     | Operation w -> w
     | Quotation (Stack (Operation ".", Empty)) -> "true"
     | Quotation ((Stack (Operation "swap", Stack (Operation ".", Empty)))) -> "false"
-    | Quotation q -> f h q (stringifyf f)
+    | Quotation q ->
+        match unchurch h q with
+        | (true, n) -> sprintf "%d" n
+        | _ -> reverse q |> (fun s -> (h, s)) |> stringify |> sprintf "[%s]"
     | Exception e ->
         match e with
         | StackUnderflow -> "Exception: StackUnderflow"
         | MissingQuotation -> "Exception: MissingQuotation"
         | Failure s -> sprintf "Exception: %s" s
 
-let rec stringify = stringifyf unchurchq
-
-let rec stringifyc = stringifyf churchq
+let rec stringifyc = function
+    | (_, Empty) -> ""
+    | (h, Stack (e, Empty)) -> strec h e
+    | (h, Stack (e, r)) -> sprintf "%s %s" (stringifyc (h, r)) (strec h e)
+and strec (h : Heap) (se : StackElement) =
+    match se with
+    | Operation w -> w
+    | Quotation q -> reverse q |> (fun s -> (h, s)) |> stringifyc |> sprintf "[%s]"
+    | Exception e ->
+        match e with
+        | StackUnderflow -> "Exception: StackUnderflow"
+        | MissingQuotation -> "Exception: MissingQuotation"
+        | Failure s -> sprintf "Exception: %s" s

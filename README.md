@@ -143,20 +143,20 @@ Chunks of STCK code can be pushed to the stack inside of anonymous stacks.
 
     []
     $> [false not]
-    [[not false]]
+    [[false not]]
 
 Note how `false` and `not` wasn't executed. At a later time, the contents of an anonymous stack can be applied to the stack using `app`.
 
-    [[not false]]
+    [[false not]]
     $> app
     [true]
 
 Anonymous stacks can be nested.
 
     $> [this [is [nested]]]
-    [[[[nested] is] this]]
+    [[this [is [nested]]]]
     $> app
-    [this [[nested] is]]
+    [this [is [nested]]]
     $> app
     [this is [nested]]
     $> app
@@ -167,22 +167,22 @@ A different set of stack operators work on anonymous stacks.
 `||` (concat) will concatenate two anonymous stacks.
 
     $> [a b] [c d] ||
-    [[d c b a]]
+    [[a b c d]]
 
 `|` (chop) will chop off the first element of the anonymous stack into a new anonymous stack.
 
     $> [a b c] |
-    [[c b] [a]]
+    [[a] [b c]]
 
 `<<` (ontop) pushes an element to the front of another anonymous stack.
 
     $> [last] first <<
-    [[last first]]
+    [[first last]]
 
 `>>` (ontail) pushes an element to the end of another anonymous stack.
 
     $> [last] first >>
-    [[first last]]
+    [[last first]]
 
 **Conditionals**
 

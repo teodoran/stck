@@ -29,22 +29,22 @@ open Stck
 
 // anonymous stacks and their operations
 // anonymous stacks / quotations ([])
-[<InlineData("[anonymous stack]", "[stack anonymous]")>]
-[<InlineData("[anonymous [nested] stack]", "[stack [nested] anonymous]")>]
+[<InlineData("[anonymous stack]", "[anonymous stack]")>]
+[<InlineData("[anonymous [nested] stack]", "[anonymous [nested] stack]")>]
 [<InlineData("first [next last] app", "first next last")>]
 [<InlineData("a-word app", "a-word Exception: MissingQuotation")>]
 // concat (||)
-[<InlineData("[a b] [c d] ||", "[d c b a]")>]
+[<InlineData("[a b] [c d] ||", "[a b c d]")>]
 [<InlineData("[one] ||", "[one] Exception: StackUnderflow")>]
 // chop (|)
-[<InlineData("[a b c] |", "[c b] [a]")>]
+[<InlineData("[a b c] |", "[b c] [a]")>]
 [<InlineData("[] |", "[] []")>]
 [<InlineData("one |", "one Exception: StackUnderflow")>]
 // ontail (>>)
-[<InlineData("[last] first >>", "[first last]")>]
+[<InlineData("[last] first >>", "[last first]")>]
 [<InlineData("one >>", "one Exception: StackUnderflow")>]
 // ontop (<<)
-[<InlineData("[last] first <<", "[last first]")>]
+[<InlineData("[last] first <<", "[first last]")>]
 [<InlineData("one <<", "one Exception: StackUnderflow")>]
 
 // definitions (#)
