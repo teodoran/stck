@@ -31,7 +31,7 @@ __if__ -> ```[rot app app] ? #```
 
 __not__ -> ```[false true rot app] not #```
 
-__and__ -> ```[ dup app] and #```
+__and__ -> ```[dup app] and #```
 
 __or__ -> ```[not swap not and not] or #```
 
