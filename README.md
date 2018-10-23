@@ -133,7 +133,7 @@ In addition the following predicates are supported for comparing numbers: `is-ze
 
 Booleans are also Church encoded, and again [stdlib.md](./Stck/stdlib.md) is your friend. `true` is true and `false`is false.
 
-The following boolean operators are supported: `not` (not), `and` (and), `or` (or), `<-` (left implication), `->` (right implication) and `<->` (equivalence).
+The following boolean operators are supported: `not` (not), `and` (and), `or` (or), `xor` (xor), `<-` (left implication), `->` (right implication) and `<->` (equivalence).
 
 **Anonymous stacks (Quotations)**
 

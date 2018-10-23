@@ -32,6 +32,11 @@ open Stck
 [<InlineData("false true or", "true")>]
 [<InlineData("true false or", "true")>]
 [<InlineData("false false or", "false")>]
+// xor
+[<InlineData("true true xor", "false")>]
+[<InlineData("false true xor", "true")>]
+[<InlineData("true false xor", "true")>]
+[<InlineData("false false xor", "false")>]
 // numerals
 // zero (0)
 [<InlineData("x [f] 0 app", "x")>]
