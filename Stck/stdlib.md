@@ -35,6 +35,8 @@ __and__ -> ```[dup app] and #```
 
 __or__ -> ```[not swap not and not] or #```
 
+__xor__ -> ```[2dup not swap not and rot rot and or not] xor #```
+
 We can compare booleans with implication and equivalence.
 
 __Left implication__ -> ```[not or] <- #```
