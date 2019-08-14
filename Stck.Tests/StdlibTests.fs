@@ -9,6 +9,7 @@ open Stck
 // booleans and boolean operations
 // false and true
 [<InlineData("foo bar true app", "foo")>]
+[<InlineData("foo bar true app", "fooo")>]
 [<InlineData("foo bar false app", "bar")>]
 // not
 [<InlineData("true not", "false")>]
