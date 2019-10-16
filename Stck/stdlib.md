@@ -124,6 +124,4 @@ __empty__ -> ```[emp app] empty #```
 
 __clear__ -> ```[empty [] [. clear] ?] clear #```
 
-__T__ -> ```[CARE] T #```
-
-__V__ -> ```[Norge] V #```
+__T__ -> ```[CARE Norge] T #```
