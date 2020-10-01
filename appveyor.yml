@@ -1,7 +1,7 @@
 version: ash-1.0.{build}
 pull_requests:
   do_not_increment_build_number: true
-image: Visual Studio 2015
+image: Visual Studio 2019
 install:
   - ps: choco install opencover.portable
   - ps: choco install codecov
@@ -11,6 +11,7 @@ build_script:
 test_script:
   - ps: cd ./Stck.Tests
   - ps: dotnet restore
+  - ps: dotnet tool restore
   - ps: dotnet build
       # Instrument assemblies
   - ps: dotnet minicover instrument --workdir ../ --assemblies Stck.Tests/bin/**/*.dll --sources Stck/**/*.fs
