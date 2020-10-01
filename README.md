@@ -1,4 +1,4 @@
-STCK
+STCK amzing coder
 ====
 _a stack-based programming language_
 
