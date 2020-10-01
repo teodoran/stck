@@ -3,8 +3,8 @@ pull_requests:
   do_not_increment_build_number: true
 image: Visual Studio 2019
 install:
-  - ps: choco install opencover.portable
-  - ps: choco install codecov
+  - ps: choco install opencover.portable --limit-output
+  - ps: choco install codecov --limit-output
 build_script:
   - ps: dotnet restore ./Stck.Tests/Stck.Tests.fsproj
   - ps: dotnet build ./Stck.Tests/Stck.Tests.fsproj
@@ -22,7 +22,7 @@ test_script:
       # Uninstrument assemblies, it's important if you're going to publish or deploy build outputs
   - ps: dotnet minicover uninstrument --workdir ../
       # Create a OpenCover-formatted report
-  - ps: dotnet minicover opencoverreport --workdir ../ --threshold 90
+  - ps: dotnet minicover opencoverreport --workdir ../
   - ps: cd ..
       # Upload coverage results to codecov.io
   - ps: $env:PATH = 'C:\msys64\usr\bin;' + $env:PATH
