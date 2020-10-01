@@ -4,8 +4,9 @@ pull_requests:
 image: Visual Studio 2019
 install:
   - ps: |
-      choco install opencover.portable --limit-output
-      choco install codecov --limit-output
+      choco feature disable --name=showDownloadProgress
+      choco install opencover.portable
+      choco install codecov
 build_script:
   - ps: |
       dotnet restore ./Stck.Tests/Stck.Tests.fsproj
@@ -23,7 +24,4 @@ test_script:
       dotnet minicover opencoverreport --workdir ../
       cd ..
 after_test:
-  - ps: |
-      $env:PATH = 'C:\msys64\usr\bin;' + $env:PATH
-      Invoke-WebRequest -Uri 'https://codecov.io/bash' -OutFile codecov.sh
-      bash codecov.sh -f "opencovercoverage.xml"
+  - ps: codecov.exe -f "opencovercoverage.xml"
