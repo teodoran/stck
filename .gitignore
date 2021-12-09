@@ -8,3 +8,7 @@ coverage.json
 coverage.xml
 coverage-hits.txt
 opencovercoverage.xml
+
+# Ionide-spesific data files
+.fake
+.ionide
