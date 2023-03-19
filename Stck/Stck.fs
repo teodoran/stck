@@ -1,5 +1,4 @@
 module Stck
-open System.Collections.Generic
 
 type Word = string
 

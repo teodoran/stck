@@ -32,7 +32,7 @@ let print strfy c =
 
 let hprint strfy c =
     let Heap hm, _ = c
-    
+
     hm
     |> Map.toSeq
     |> Seq.iter (fun d ->

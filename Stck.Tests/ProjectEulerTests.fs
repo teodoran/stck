@@ -10,13 +10,13 @@ let ``STCK should solve project euler problem No 1`` () =
     let program =
         "```If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9.
             The sum of these multiples is 23.
-            
+
             Find the sum of all the multiples of 3 or 5 below 1000.```
-            
+
         [dup 0 =] next-is-zero #
-        
+
         [dup 3 % 0 =] multiple-of-3 #
-        
+
         [dup 5 % 0 =] multiple-of-5 #
 
         [
@@ -40,7 +40,7 @@ let ``STCK should solve project euler problem No 1`` () =
         ] sum-numbers #
 
         0 9 generate-numbers sum-numbers"
-    
+
     (eval program stdlibContext)
     |> stringify
     |> should equal "23"
@@ -73,7 +73,7 @@ let ``STCK should solve project euler problem No 2`` () =
         ] sum-if-even #
 
         0 1 2 fib-under-10 sum-if-even"
-    
+
     (eval program stdlibContext)
     |> stringify
     |> should equal "10"
