@@ -18,7 +18,7 @@ The only supported data-type used to be 32-bit integers, but now we handle all t
 Installation
 ------------
 
-You'll need dotnet core 3.1 to compile the STCK interpreter. You'll probably struggle a bit to get everything working on Linux. Google is your friend.
+You'll need the [.NET 7.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) to compile the STCK interpreter.
 
 When the compiler is installed, navigate to the folder `/Stck.Console` and run:
 
