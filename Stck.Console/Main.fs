@@ -71,17 +71,26 @@ let rec loop strfy (c : Context) : Context =
     | exps ->
         c |> eval exps |> print strfy |> loop strfy
 
+let runFileMode (fileName: string) =
+    emptyContext
+    |> load stdlibFile
+    |> load fileName
+    |> print stringify
+    |> ignore
+
+let runInterpretedMode () =
+    printfn ""
+    printfn "Welcome to STCK 2.0, a stack-based programming language"
+    printfn ""
+    emptyContext
+    |> load stdlibFile
+    |> prompt
+    |> loop stringify
+    |> ignore
+
 [<EntryPoint>]
 let main args =
     match Array.length args > 0 with
-    | true -> load args.[0] emptyContext |> ignore
-    | false ->
-        printfn ""
-        printfn "Welcome to STCK 2.0, a stack-based programming language"
-        printfn ""
-        emptyContext
-        |> load stdlibFile
-        |> prompt
-        |> loop stringify
-        |> ignore
+    | true -> runFileMode args.[0]
+    | false -> runInterpretedMode ()
     0
